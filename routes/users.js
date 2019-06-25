@@ -7,9 +7,7 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
-const User = require('../models/user');
-const { connection } = require('../config.js');
+const User = require('../libs/model.js');
 
 // Call register view
 router.get('/register', function (req, res) {
@@ -31,7 +29,7 @@ router.post('/register', function (req, res) {
   req.checkBody('password', 'password is required').notEmpty(); // report if password is not provided
   req.checkBody('password2', 'passwords do not match').equals(req.body.password); // check the two passwords are equal
 
-  var errors = req.validationErrors();
+  const errors = req.validationErrors();
 
   if (errors) {
     res.render('register', {
@@ -39,7 +37,6 @@ router.post('/register', function (req, res) {
     });
   } else {
     User.createUser(username, password); // Creation of the new user if all goes well
-
     req.flash('success_msg', 'You are registered and can now log in.');
     res.redirect('/users/login');
   }
@@ -49,10 +46,10 @@ passport.use(User.passportLocal);
 User.saveData(passport);
 
 // We get the information from the logged-in user (his nickname and current score)
-router.get('/', function (req, res) {
+router.get('/', function(req, res) {
   if (req["user"] != undefined) {
-    var current_user = req["user"].login;
-    var current_score = req.user.highScore;
+    const current_user = req["user"].login;
+    const current_score = req.user.highScore;
     res.render('index', { username: "Bonjour " + current_user, highscore: "Votre score actuel est de " + current_score });
   }
   else {
@@ -66,7 +63,7 @@ router.post('/login', passport.authenticate('local', { successRedirect: '/users'
 });
 
 // Logout
-router.get('/logout', function (req, res) {
+router.get('/logout', function(req, res) {
   req.logout();
   req.flash('success', 'logout successfull');
   res.redirect('/users/login');

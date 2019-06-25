@@ -1,8 +1,8 @@
-var express= require('express');
-var router = express.Router();
-var {ensureAuthenticated} = require('../libs/myLibUtils');
+const express= require('express');
+const router = express.Router();
+const { ensureAuthenticated } = require('../libs/myLibUtils');
 
-//effectue une requête get, on renvoie l'utilisateur loggué ou non sur la vue index
+// Call index view if user is logged in
 router.get('/', ensureAuthenticated, function(req,res){
   res.render('index');
 });
