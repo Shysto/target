@@ -1,3 +1,4 @@
+const DISPLAY_MAX = 5;
 const { connection } = require('../config.js');
 const LocalStrategy = require('passport-local').Strategy;
 const express= require('express');
@@ -33,14 +34,14 @@ const passportLocal = new LocalStrategy(function (username, password, done) {
 });
 
 
-//Creation of a new user
+// Creation of a new user
 function createUser(log,pass){
-    const login="'"+log+"'";
-    const password="'"+pass+"'";
+    const login = "'" + log + "'";
+    const password = "'" + pass + "'";
     connection.query(
-        "INSERT INTO users (login,password,isAdmin,isBlacklisted,highscore) VALUES (" + login + ',' +password+','+ '0' +','+ '0' + ','+'0'+')',
+        "INSERT INTO users (login,password,isAdmin,isBlacklisted,highscore) VALUES (" + login + ',' + password + ',' + '0' + ','+ '0' + ',' + '0' + ')',
         function(err, results, fields) {
-            if (err==null){
+            if (err == null){
                 console.log("User added");
             }
             else{
@@ -53,12 +54,12 @@ function createUser(log,pass){
 
 // High Score updating if the new score is better than the score previously entered
 function updateHighscore(user,hs){
-    const username="'"+user+"'";
-    const highscore="'"+hs+"'";
+    const username = "'" + user + "'";
+    const highscore = "'" + hs + "'";
     connection.query(
-        "UPDATE users SET highscore="+highscore+"WHERE login="+username+"AND highscore<"+highscore,
+        "UPDATE users SET highscore=" + highscore+"WHERE login=" + username + "AND highscore<" + highscore,
         function(err, results, fields) {
-            if (err==null){
+            if (err == null){
                 console.log("Score updated");
             }
             else{
@@ -69,14 +70,14 @@ function updateHighscore(user,hs){
     );
 }
 
-//Display the 5 logins the associated highscores ordered by descending order
+// Display the DISPLAY_MAX logins the associated highscores ordered by descending order
 function showHighscore(req, res) {
   connection.query(
     "SELECT login,highscore FROM users ORDER BY highscore DESC LIMIT 5",
     function (err, results, fields) {
       if (results.length) {
         const highscores = { user: [] };
-        for (var i = 0; i < 5; i++) {
+        for (var i = 0; i < DISPLAY_MAX; i++) {
           highscores.user.push({ "name": results[i].login, "highScore": results[i].highscore, "numero": i + 1 }); //we transmit to the view the nickname and the score
         }
         console.log(results);
@@ -111,14 +112,13 @@ function saveData(passport) {
   });
 };
 
-
-//Collect the 6 last messages from the chat to display it
-//Messages are available using the global variable messages
+// Collect the 6 last messages from the chat to display it
+// Messages are available using the global variable messages
 function displayChat(){
     connection.query(
         "SELECT loginAuteur, message FROM chat ORDER BY idMessage DESC LIMIT 4",
         function(err, results, fields) {
-            if (err==null){
+            if (err == null){
                 console.log("Chat loaded");
                 // Messages are loaded in ascending order of arrival, for index between 0 and 5
                 messages = results;
@@ -131,15 +131,14 @@ function displayChat(){
     );
 }
 
-
-//Insert a new message in the chat
+// Insert a new message in the chat
 function addChat(login, ms){
-    const loginAuteur="'"+login+"'";
-    const message="'"+ms+"'";
+    const loginAuteur = "'" + login + "'";
+    const message = "'" + ms + "'";
     connection.query(
-        "INSERT INTO chat (loginAuteur,message) VALUES (" + loginAuteur + ',' +message+')',
+        "INSERT INTO chat (loginAuteur,message) VALUES (" + loginAuteur + ',' + message + ')',
         function(err, results, fields) {
-            if (err==null){
+            if (err == null){
                 console.log("Message added");
             }
             else{
@@ -150,11 +149,11 @@ function addChat(login, ms){
     );
 }
 
-//To know if someone is blacklisted
-//Return a boolean : true if the user is blacklisted, false otherwise
-//Return nothing if the user doesn't exist
+// To know if someone is blacklisted
+// Return a boolean : true if the user is blacklisted, false otherwise
+// Return nothing if the user doesn't exist
 function isBlacklisted(user){
-    const username="'"+user+"'";
+    const username = "'" + user + "'";
     connection.query(
         "SELECT isBlacklisted FROM users WHERE login = " + username,
         function(err, results, fields) {
@@ -177,12 +176,12 @@ function isBlacklisted(user){
     );
 }
 
-//To Blacklist someone
-//To be used by an admin
+// To Blacklist someone
+// To be used by an admin
 function toBlacklist(log){
-    const login="'"+log+"'";
+    const login = "'" + log+"'";
     connection.query(
-        "UPDATE users SET isBlacklisted = 1 WHERE login ="+login,
+        "UPDATE users SET isBlacklisted = 1 WHERE login =" + login,
         function(err, results, fields) {
             if (err==null){
                 console.log("User blacklisted");
@@ -195,18 +194,17 @@ function toBlacklist(log){
     );
 }
 
-
-//To unBlacklist someone
-//To be used by an admin
+// To unBlacklist someone
+// To be used by an admin
 function toFree(log){
-    const login="'"+log+"'";
+    const login = "'" + log + "'";
     connection.query(
-        "UPDATE users SET isBlacklisted = 0 WHERE login ="+login,
+        "UPDATE users SET isBlacklisted = 0 WHERE login =" + login,
         function(err, results, fields) {
             if (err==null){
                 console.log("User can now use the chat");
             }
-            else{
+            else {
                 console.log(err);
             }
         }
@@ -214,11 +212,11 @@ function toFree(log){
     );
 }
 
-//Check if the user is admin
-////Return a boolean : true if the user is admin, false otherwise
-// //Return nothing if the user doesn't exist
+// Check if the user is admin
+// Return a boolean : true if the user is admin, false otherwise
+// Return nothing if the user doesn't exist
 function isAdmin(log){
-    const login="'"+log+"'";
+    const login = "'" + log + "'";
     connection.query(
         "SELECT isAdmin FROM users WHERE login = " + login,
         function(err, results, fields) {
@@ -240,7 +238,6 @@ function isAdmin(log){
 
     );
 }
-
 
 module.exports = {
     createUser,
