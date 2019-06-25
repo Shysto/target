@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Socket.IO chat</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font: 13px Helvetica, Arial;
+        }
+
+    </style>
+</head>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+
+
+<body>
+<h1>Classement</h1>
+{{#each user}}
+<p>{{numero}} - {{name}} {{highScore}}</p>
+{{/each}}
+</body>
+
+</html>

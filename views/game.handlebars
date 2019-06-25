@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Socket.IO chat</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font: 13px Helvetica, Arial;
+        }
+
+        #target {
+            background-color: blue;
+            width: 30px;
+            height: 30px;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    $(document).ready(function() {
+        const socket = io();
+        socket.on('coordonnee', function(coordonnee) {
+            console.log(coordonnee);
+            $('#target').css('transform', `translate(${coordonnee[0]}vw,${coordonnee[1]}vh)`);
+        });
+        $('#target').on({
+            click: function() {
+                socket.emit('cible', 'touchee');
+            }
+        })
+    });
+</script>
+
+<body>
+<p id="target"></p>
+</body>
+
+</html>
