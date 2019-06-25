@@ -1,3 +1,5 @@
+const DISPLAY_MAX = 5;
+
 const { connection } = require('../config.js');
 const LocalStrategy = require('passport-local').Strategy;
 
@@ -72,7 +74,7 @@ function showHighscore(req, res) {
     function (err, results, fields) {
       if (results.length) {
         const highscores = { user: [] };
-        for (var i = 0; i < 5; i++) {
+        for (var i = 0; i < DISPLAY_MAX; i++) {
           highscores.user.push({ "name": results[i].login, "highScore": results[i].highscore, "numero": i + 1 }); //we transmit to the view the nickname and the score
         }
         console.log(results);
@@ -107,11 +109,38 @@ function saveData(passport) {
   });
 };
 
+// Manage access to admin view only for admin user
+function isAdmin(req, res, next) {
+  if (req.isAuthenticated()) {
+    const login = "'" + req["user"].login + "'";
+    connection.query(
+      "SELECT isAdmin FROM users WHERE login=" + login,
+      function (err, results, fields) {
+        if (results.length) {
+          if (results[0].isAdmin) {
+            next();
+          } else {
+            req.flash('error_msg', "Vous n'êtes pas administrateur");
+            res.redirect('/users/'); //Redirection to view index if user isn't admin
+          }
+        }
+        else {
+          console.log(err);
+        }
+      });
+  }
+  else {
+    req.flash('error_msg', "Vous n'êtes pas connecté");
+    res.redirect('/users/login'); //Redirection to view login if user isn't logged in
+  }
+}
+
 module.exports = {
   createUser,
   updateHighscore,
   showHighscore,
   passportLocal,
-  saveData
+  saveData,
+  isAdmin
 };
 
