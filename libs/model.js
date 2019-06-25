@@ -1,4 +1,5 @@
-const DISPLAY_MAX = 5;
+const DISPLAY_MAX_HIGHSCORE = 5;
+const DISPLAY_MAX_MESSAGE = 4;
 const { connection } = require('../config.js');
 const LocalStrategy = require('passport-local').Strategy;
 const express= require('express');
@@ -57,7 +58,7 @@ function updateHighscore(user,hs){
     const username = "'" + user + "'";
     const highscore = "'" + hs + "'";
     connection.query(
-        "UPDATE users SET highscore=" + highscore+"WHERE login=" + username + "AND highscore<" + highscore,
+        "UPDATE users SET highscore=" + highscore + "WHERE login=" + username + "AND highscore<" + highscore,
         function(err, results, fields) {
             if (err == null){
                 console.log("Score updated");
@@ -72,13 +73,14 @@ function updateHighscore(user,hs){
 
 // Display the DISPLAY_MAX logins the associated highscores ordered by descending order
 function showHighscore(req, res) {
+  const limit = "'" + DISPLAY_MAX_HIGHSCORE + "'";
   connection.query(
-    "SELECT login,highscore FROM users ORDER BY highscore DESC LIMIT 5",
+    "SELECT login,highscore FROM users ORDER BY highscore DESC LIMIT " + limit,
     function (err, results, fields) {
       if (results.length) {
         const highscores = { user: [] };
-        for (var i = 0; i < DISPLAY_MAX; i++) {
-          highscores.user.push({ "name": results[i].login, "highScore": results[i].highscore, "numero": i + 1 }); //we transmit to the view the nickname and the score
+        for (var i = 0; i < DISPLAY_MAX_HIGHSCORE; i++) {
+          highscores.user.push({ "name": results[i].login, "highScore": results[i].highscore, "numero": i + 1 }); // we transmit to the view the nickname and the score
         }
         console.log(results);
         console.log(highscores);
@@ -115,8 +117,9 @@ function saveData(passport) {
 // Collect the 6 last messages from the chat to display it
 // Messages are available using the global variable messages
 function displayChat(){
+  const limit = "'" + DISPLAY_MAX_MESSAGE + "'";
     connection.query(
-        "SELECT loginAuteur, message FROM chat ORDER BY idMessage DESC LIMIT 4",
+        "SELECT loginAuteur, message FROM chat ORDER BY idMessage DESC LIMIT " + limit,
         function(err, results, fields) {
             if (err == null){
                 console.log("Chat loaded");
