@@ -8,6 +8,7 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 const User = require('../libs/model.js');
+var {isLoggedIn} = require('../libs/myLibUtils');
 
 // Call register view
 router.get('/register', function (req, res) {
@@ -15,7 +16,7 @@ router.get('/register', function (req, res) {
 });
 
 // Call login view
-router.get('/login', function (req, res) {
+router.get('/login', isLoggedIn, function (req, res) {
   res.render('login');
 });
 
