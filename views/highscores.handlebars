@@ -3,7 +3,11 @@
 
 <head>
     <title>Socket.IO chat</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Monoton&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
+
         * {
             margin: 0;
             padding: 0;
@@ -14,6 +18,92 @@
             font: 13px Helvetica, Arial;
         }
 
+        h1 {
+            font-size: 50px;
+            font-family: "Monoton", cursive;
+        }
+
+        #container {
+            text-align: center;
+            font-family: 'Press Start 2P', cursive;
+        }
+
+        #users {
+            margin-top: 20px;
+            margin-bottom: 50px;
+        }
+
+        .item-user {
+            font-size: 20px;
+        }
+
+        div input[type=text] {
+            display: inline;
+            width: 200px;
+            margin-right: 50px;
+        }
+
+        .eightbit-btn {
+            background: #92CD41;
+            display: inline-block;
+            position: relative;
+            text-align: center;
+            font-size: 30px;
+            padding: 20px;
+            font-family: 'Press Start 2P', cursive;
+            text-decoration: none;
+            color: white;
+            box-shadow: inset -4px -4px 0px 0px #4AA52E;
+        }
+        .eightbit-btn:hover, .eightbit-btn:focus {
+            background: #76c442;
+            box-shadow: inset -6px -6px 0px 0px #4AA52E;
+        }
+        .eightbit-btn:active {
+            box-shadow: inset 4px 4px 0px 0px #4AA52E;
+        }
+        .eightbit-btn:before, .eightbit-btn:after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            box-sizing: content-box;
+        }
+        .eightbit-btn:before {
+            top: -6px;
+            left: 0;
+            border-top: 6px black solid;
+            border-bottom: 6px black solid;
+        }
+        .eightbit-btn:after {
+            left: -6px;
+            top: 0;
+            border-left: 6px black solid;
+            border-right: 6px black solid;
+        }
+        .eightbit-btn--reset {
+            background: #E76E55;
+            box-shadow: inset -4px -4px 0px 0px #8C2022;
+        }
+        .eightbit-btn--reset:hover, .eightbit-btn--reset:focus {
+            background: #CE372B;
+            box-shadow: inset -6px -6px 0px 0px #8C2022;
+        }
+        .eightbit-btn--reset:active {
+            box-shadow: inset 4px 4px 0px 0px #8C2022;
+        }
+        .eightbit-btn--proceed {
+            background: #F7D51D;
+            box-shadow: inset -4px -4px 0px 0px #E59400;
+        }
+        .eightbit-btn--proceed:hover, .eightbit-btn--proceed:focus {
+            background: #F2C409;
+            box-shadow: inset -6px -6px 0px 0px #E59400;
+        }
+        .eightbit-btn--proceed:active {
+            box-shadow: inset 4px 4px 0px 0px #E59400;
+        }
+
     </style>
 </head>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -21,10 +111,22 @@
 
 
 <body>
-<h1>Classement</h1>
-{{#each user}}
-<p>{{numero}} - {{name}} {{highScore}}</p>
-{{/each}}
+
+<div id="container">
+    <h1>Ranking</h1>
+
+    <div id="users">
+        {{#each user}}
+            <p class="item-user">{{numero}} - {{name}} : {{highScore}}</p>
+        {{/each}}
+    </div>
+
+    <div>
+        <input type="text" class="form-control form-control-lg" name="pseudo">
+        <input type="button" class="btn btn-default btn-lg" name="search" value="Search a player">
+    </div>
+</div>
+
 </body>
 
 </html>
