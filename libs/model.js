@@ -2,8 +2,6 @@ const DISPLAY_MAX_HIGHSCORE = 5;
 const DISPLAY_MAX_MESSAGE = 4;
 const { connection } = require('../config.js');
 const LocalStrategy = require('passport-local').Strategy;
-const express= require('express');
-const router = express.Router();
 const messages = null;
 
 // Here we define the behavior to adopt when we receive the information from the connection interface
@@ -73,9 +71,8 @@ function updateHighscore(user,hs){
 
 // Display the DISPLAY_MAX logins the associated highscores ordered by descending order
 function showHighscore(req, res) {
-  const limit = "'" + DISPLAY_MAX_HIGHSCORE + "'";
   connection.query(
-    "SELECT login,highscore FROM users ORDER BY highscore DESC LIMIT " + limit,
+    "SELECT login,highscore FROM users ORDER BY highscore DESC LIMIT " + DISPLAY_MAX_HIGHSCORE,
     function (err, results, fields) {
       if (results.length) {
         const highscores = { user: [] };
@@ -117,9 +114,8 @@ function saveData(passport) {
 // Collect the 6 last messages from the chat to display it
 // Messages are available using the global variable messages
 function displayChat(){
-  const limit = "'" + DISPLAY_MAX_MESSAGE + "'";
     connection.query(
-        "SELECT loginAuteur, message FROM chat ORDER BY idMessage DESC LIMIT " + limit,
+        "SELECT loginAuteur, message FROM chat ORDER BY idMessage DESC LIMIT " + DISPLAY_MAX_MESSAGE,
         function(err, results, fields) {
             if (err == null){
                 console.log("Chat loaded");
