@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang='en-US'>
 <head>
-  <title>LOGIN APP</title>
+  <title>TARGET</title>
   <link rel="stylesheet" href="/css/bootstrap.css"/>
   <link rel="stylesheet" href="/css/style.css"/>
 </head>
@@ -11,13 +11,13 @@
           <nav>
             <ul class="nav nav-pills pull-right">
               {{#if user}}
-                  <li role="presentation" ><a href="/users">Dashboard</a></li>
-                  <li role="presentation"><a href="/users/logout">Logout</a></li>
+                  <li role="presentation" ><a href="/users">Home</a></li>
                   <li role="presentation"><a href="/game">Play</a></li>
                   <li role="presentation"><a href="/highscores">Highscores</a></li>
+                  <li role="presentation"><a href="/users/logout">Logout</a></li>
               {{else}}
-                  <li role="presentation"><a href="/users/login">Login</a></li>
                   <li role="presentation"><a href="/users/register">Register</a></li>
+                  <li role="presentation"><a href="/users/login">Login</a></li>
               {{/if}}
             </ul>
           </nav>
