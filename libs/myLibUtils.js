@@ -1,5 +1,5 @@
-function ensureAuthenticated(req,res,next){
-    if(req.isAuthenticated()){
+function ensureAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
         next();
     } else {
         //req.flash('error_msg', ' you are not logged in');
@@ -7,6 +7,4 @@ function ensureAuthenticated(req,res,next){
     }
 }
 
-
-
-module.exports = {ensureAuthenticated};
+module.exports = { ensureAuthenticated };
