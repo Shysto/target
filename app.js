@@ -1,57 +1,60 @@
-//CONTROLLEUR
+/*****************************************************/
+/*                                                   */
+/*          Controller and starting servers          */
+/*                                                   */
+/*****************************************************/
 
-var express = require('express');
-var path = require('path');
-//var favicon = require('serve-favicon');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var exphbs = require('express-handlebars');
-var expressValidator=require('express-validator');
-var flash = require('connect-flash');
-var session = require('express-session');
-var passport = require('passport');
-//var LocalStrategy = require('passport-local').Strategy;
-var logger = require('morgan');
+const path = require('path');
+const express = require('express');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const exphbs = require('express-handlebars');
+const expressValidator = require('express-validator');
+const flash = require('connect-flash');
+const session = require('express-session');
+const passport = require('passport');
+const logger = require('morgan');
 
+// Init app
+const app = express();
 
-//routes
-var routes = require('./routes/index'); //chemin vers la route index
-var users=require('./routes/users'); //chemin vers la route users
-var game = require('./routes/game'); //chemin vers la route game
-var highscores = require('./routes/highscores'); //chemin vers la route game
+// Initializing HTTP server
+const http = require('http').createServer(app);
+const io = require('socket.io')(http);
+const { generateCoordinates } = require('./libs/functions');
 
-//init app
-var app=express();
+// Road's declaration
+const routes = require('./routes/index'); //chemin vers la route index
+const users = require('./routes/users'); //chemin vers la route users
+const game = require('./routes/game'); //chemin vers la route game
+const highscores = require('./routes/highscores'); //chemin vers la route game
 
+// Configuration for the "handlebars" template engine
 app.use(logger('dev'));
-
-//Configuration pour le moteur de template "handlebars"
 app.set('views', path.join(__dirname,'views'));
 app.engine('handlebars', exphbs({defaultLayout:'layout'}));
 app.set('view engine', 'handlebars');
 
-
-//BodyParser Middleware
+// BodyParser Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 
-//Permet aux vues d'accéder au fichier public contenant la partie front-end
+// Allowing views to access to the 'public' folder (which contains front end part)
 app.use(express.static(path.join(__dirname, 'public')));
 
-//utilisation d'une session
+// Express session
 app.use(session({
   secret:'secret',
   saveUninitialized: true,
   resave:true
 }));
 
-//initialisation de la session
+// Init passport
 app.use(passport.initialize());
 app.use(passport.session());
 
-
-//express validator
+// Express validator
 app.use(expressValidator({
   errorFormatter:function(param, msg, value){
     var namespace = param.split('.'),
@@ -69,10 +72,10 @@ app.use(expressValidator({
     }
 }));
 
-//permet d'envoyer des messages flashs
+// Connect flash (sending messages)
 app.use(flash());
 
-//global vars
+// Redirections
 app.use(function(req,res,next){
   res.locals.success_msg = req.flash('success_msg');
   res.locals.error_msg = req.flash('error_msg');
@@ -81,21 +84,12 @@ app.use(function(req,res,next){
   next();
 });
 
-app.use('/', routes); // 'localhost:3000' renvoie vers la route index
-app.use('/users', users); // 'localhost:3000/users' renvoie vers la route users
-app.use('/game',game);
-app.use('/highscores',highscores);
+app.use('/', routes); // 'localhost:3000' redirect to ./routes/index
+app.use('/users', users); // 'localhost:3000/users' redirect to ./routes/users
+app.use('/game', game); // 'localhost:3000/game' redirect to ./routes/users
+app.use('/highscores', highscores); // 'localhost:3000/highscores' redirect to ./routes/highscores
 
-
-//Initialisation du serveur http
-
-const http = require('http').createServer(app);
-const io = require('socket.io')(http);
-const { generateCoordinates } = require('./routes/functions');
-
-
-
-//utilisation de socket.io pour le jeu
+// Use of socket.io
 io.on('connection', function(socket) {
   console.log('A user is connected');
   io.emit('coordonnee', generateCoordinates());
@@ -104,8 +98,7 @@ io.on('connection', function(socket) {
   })
 });
 
-
-//serveur initialisé sur le port 3000
+// Set port
 http.listen(3000, function() {
   console.log('Server started on port 3000');
 });
