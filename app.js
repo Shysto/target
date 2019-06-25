@@ -24,10 +24,10 @@ const io = require('socket.io')(http);
 const { generateCoordinates } = require('./libs/functions');
 
 // Road's declaration
-const routes = require('./routes/index'); //chemin vers la route index
-const users = require('./routes/users'); //chemin vers la route users
-const game = require('./routes/game'); //chemin vers la route game
-const highscores = require('./routes/highscores'); //chemin vers la route game
+const routes = require('./routes/index'); 
+const users = require('./routes/users'); 
+const game = require('./routes/game'); 
+const highscores = require('./routes/highscores'); 
 
 // Configuration for the "handlebars" template engine
 app.use(logger('dev'));
