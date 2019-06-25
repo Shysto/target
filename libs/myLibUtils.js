@@ -12,9 +12,9 @@ function isLoggedIn(req, res, next) {
     if (!req.isAuthenticated()) {
         next();
     } else {
-        req.flash('error_msg', 'You are already logged in');
+        req.flash('error_msg', 'Vous êtes déjà connecté');
         res.redirect('/users'); //Redirection to view index if user is already login 
     }
 }
 
-module.exports = { ensureAuthenticated, isLoggedIn };
+module.exports = { ensureAuthenticated, isLoggedIn};
