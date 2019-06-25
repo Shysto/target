@@ -29,10 +29,20 @@
 <script>
     $(document).ready(function() {
         const socket = io();
+        let idRound;
+        var username = "{{username}}";
+        console.log(username);
+        socket.emit('setUsername',username);
+        
         socket.on('coordonnee', function(coordonnee) {
             console.log(coordonnee);
             $('#target').css('transform', `translate(${coordonnee[0]}vw,${coordonnee[1]}vh)`);
         });
+
+        socket.on('idRound', function(id){
+            idRound = id;
+            console.log(idRound);
+        })
         $('#target').on({
             click: function() {
                 socket.emit('cible', 'touchee');
@@ -43,6 +53,7 @@
 
 <body>
 <p id="target"></p>
+<div>{{username}}</div>
 </body>
 
 </html>

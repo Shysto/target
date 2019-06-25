@@ -21,23 +21,23 @@ const app = express();
 // Initializing HTTP server
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
-const { generateCoordinates } = require('./libs/functions');
+const { generateCoordinates, uniqueid } = require('./libs/myLibGame.js');
 
 // Road's declaration
 const routes = require('./routes/index'); //chemin vers la route index
 const users = require('./routes/users'); //chemin vers la route users
 const game = require('./routes/game'); //chemin vers la route game
 const highscores = require('./routes/highscores'); //chemin vers la route game
-
+let rounds = [];
 // Configuration for the "handlebars" template engine
 app.use(logger('dev'));
-app.set('views', path.join(__dirname,'views'));
-app.engine('handlebars', exphbs({defaultLayout:'layout'}));
+app.set('views', path.join(__dirname, 'views'));
+app.engine('handlebars', exphbs({ defaultLayout: 'layout' }));
 app.set('view engine', 'handlebars');
 
 // BodyParser Middleware
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 // Allowing views to access to the 'public' folder (which contains front end part)
@@ -45,9 +45,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Express session
 app.use(session({
-  secret:'secret',
-  saveUninitialized: true,
-  resave:true
+    secret: 'secret',
+    saveUninitialized: true,
+    resave: true
 }));
 
 // Init passport
@@ -56,19 +56,19 @@ app.use(passport.session());
 
 // Express validator
 app.use(expressValidator({
-  errorFormatter:function(param, msg, value){
-    var namespace = param.split('.'),
-    root = namespace.shift(),
-    formParam = root;
+    errorFormatter: function(param, msg, value) {
+        var namespace = param.split('.'),
+            root = namespace.shift(),
+            formParam = root;
 
-    while(namespace.length){
-      formParam+='[' + namespace.shift() + ']';
-    }
-    return{
-      param:formParam,
-      msg:msg,
-      value:value
-    };
+        while (namespace.length) {
+            formParam += '[' + namespace.shift() + ']';
+        }
+        return {
+            param: formParam,
+            msg: msg,
+            value: value
+        };
     }
 }));
 
@@ -76,12 +76,12 @@ app.use(expressValidator({
 app.use(flash());
 
 // Redirections
-app.use(function(req,res,next){
-  res.locals.success_msg = req.flash('success_msg');
-  res.locals.error_msg = req.flash('error_msg');
-  res.locals.error = req.flash('error');
-  res.locals.user = req.user || null;
-  next();
+app.use(function(req, res, next) {
+    res.locals.success_msg = req.flash('success_msg');
+    res.locals.error_msg = req.flash('error_msg');
+    res.locals.error = req.flash('error');
+    res.locals.user = req.user || null;
+    next();
 });
 
 app.use('/', routes); // 'localhost:3000' redirect to ./routes/index
@@ -91,18 +91,39 @@ app.use('/highscores', highscores); // 'localhost:3000/highscores' redirect to .
 
 // Use of socket.io
 io.on('connection', function(socket) {
-  console.log('A user is connected');
-  io.emit('coordonnee', generateCoordinates());
-  socket.on('cible', function(msg) {
-    io.emit('coordonnee', generateCoordinates());
-  })
+    console.log('A user is connected');
+    socket.on('setUsername', function(data) {
+        console.log('user received');
+        console.log(`${data}`);
+        if (rounds.length == 0) {
+            var id = uniqueid();
+            rounds.push({ "idRound": id, "players": [{ "login": data, "score": 0 }] });
+            socket.join(id);
+            socket.emit('idRound', id);
+            socket.join(id);
+        } else {
+            if (rounds[rounds.length - 1]["players"].length < 3) {
+                rounds[rounds.length - 1]["players"].push({ "login": data, "score": 0 });
+                socket.join(rounds[rounds.length - 1]["idRound"]);
+                socket.emit('idRound', rounds[rounds.length - 1]["idRound"]);
+                socket.join(rounds[rounds.length - 1]["idRound"]);
+            } else {
+                var id = uniqueid();
+                rounds.push({ "idRound": id, "players": [{ "login": data, "score": 0 }] });
+                socket.join(id);
+                socket.emit('idRound', id);
+                socket.join(id);
+
+            }
+        }
+        io.emit('coordonnee', generateCoordinates());
+        socket.on('cible', function(msg) {
+            io.emit('coordonnee', generateCoordinates());
+        })
+    });
 });
 
 // Set port
 http.listen(3000, function() {
-  console.log('Server started on port 3000');
+    console.log('Server started on port 3000');
 });
-
-
-
-
