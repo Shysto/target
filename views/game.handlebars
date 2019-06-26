@@ -2,8 +2,10 @@
 <html>
 
 <head>
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Audiowide"/>
     <title>Socket.IO chat</title>
     <style>
+
         * {
             margin: 0;
             padding: 0;
@@ -11,20 +13,29 @@
         }
 
         body {
-            font: 13px Helvetica, Arial;
+            font: 13px Audiowide;
+            background-color:#1A1A1A;
+            color:white;
         }
 
         #target {
-            background-color: blue;
-            width: 30px;
-            height: 30px;
+            cursor:pointer;
             position: absolute;
-            top: 0;
-            left: 0;
-            display: none;
+            top: calc(50% - 150px);
+            left: calc(50% - 150px);
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            box-shadow:
+                    inset 0 0 50px #000000,
+                    0 0 1px #fff,
         }
         .displayScore{
             font-size: 50px;
+        }
+
+        #startButton{
+            text-transform: uppercase;
         }
     </style>
 </head>
@@ -45,8 +56,12 @@
         socket.emit('setUsername',username);
         
         socket.on('round', function(msg) {
+            var randomColor = Math.floor(Math.random()*16777215).toString(16);
             console.log(msg["coordinates"]);
             $('#target').css('transform', `translate(${msg["coordinates"][0]}vw,${msg["coordinates"][1]}vh)`);
+            $('#target').css('background-color',"#"+randomColor);
+           // $('#target').css('box-shadow'," inset 0 0 50px " + "#" +randomColor +"," + " 0 0 1px #" + randomColor +","
+                           //   + "10px 0 80px #"+randomColor+";");
             players = msg["players"];
             var i;
             $('li').remove();
@@ -88,6 +103,9 @@
 <p id="target"></p>
 <ul id="score"></lu>
 <button id="startButton">Let's start!</button>
+    <br/>
+    <br/>
+    <br/>
 </body>
 
 </html>
