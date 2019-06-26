@@ -30,6 +30,9 @@ const users = require('./routes/users'); //chemin vers la route users
 const game = require('./routes/game'); //chemin vers la route game
 const highscores = require('./routes/highscores'); //chemin vers la route game
 const chat = require('./routes/chat');
+
+const messages = require('./routes/messages');
+
 let rounds = [];
 let id;
 
@@ -93,6 +96,7 @@ app.use('/users', users); // 'localhost:3000/users' redirect to ./routes/users
 app.use('/game', game); // 'localhost:3000/game' redirect to ./routes/users
 app.use('/highscores', highscores); // 'localhost:3000/highscores' redirect to ./routes/highscores
 app.use('/chat', chat); // 'localhost:3000/chat' redirect to ./routes/chat
+app.use('/messages', messages); // 'localhost:3000/chat' redirect to ./routes/messages
 
 // Use of socket.io
 io.on('connection', function(socket) {

@@ -66,22 +66,40 @@
         .back{
             text-transform: uppercase;
         }
+
     </style>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script>
+        var rep=null;
+        function load(){
+
+            $.ajax({
+                type: "GET",
+                url: "/messages",
+                error: function(){
+                    console.log("erreur");
+                },
+                success: function(oRep){
+                  $("#messages").html(oRep);
+                }
+            });
+
+        }
+    //load();
+        window.setInterval(load,1);
+
+
+    </script>
 </head>
 
-<body onLoad="window.setTimeout('history.go(0)', 5000)">
+<body>
 
 <div class="logo">
     <b>C<span>h</span>a<span>t</span></b>
 </div><br><br>
 
-
-{{#each user}}
-    <p>{{name}} : {{message}}</p>
-{{/each}}
-
-
-
+<div id="messages">
+</div>
 
 
 {{#if errors}}
@@ -92,7 +110,7 @@
 
 
 <form  method="post" action="/chat">
-    <input type="text" class="form-control" name="message" placeholder="Message">
+    <input id="text" type="text" class="form-control" name="message" placeholder="Message">
     <br/>
     <button type="submit" class="btn btn-default">Submit</button>
 </form>
