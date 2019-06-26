@@ -43,6 +43,10 @@
         var username = "{{username}}";
         console.log(username);
         socket.emit('setUsername',username);
+
+        socket.on('userTaken', function(msg){
+            $("#error").html(msg);
+        })
         
         socket.on('round', function(msg) {
             console.log(msg["coordinates"]);
@@ -86,6 +90,7 @@
 
 <body>
 <p id="target"></p>
+<p id="error"></p>
 <ul id="score"></lu>
 <button id="startButton">Let's start!</button>
 </body>

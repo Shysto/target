@@ -27,10 +27,24 @@ function addScore(user, users) {
     })
 }
 
+function isPresent(user, round) {
+    var test = false;
+    round.forEach(function(game) {
+        game.players.forEach(function(player) {
+            if (user == player.login) {
+                test = true;
+            }
+        })
+
+    })
+    return test;
+}
+
 
 
 module.exports = {
     generateCoordinates,
     uniqueid,
-    addScore
+    addScore,
+    isPresent
 }

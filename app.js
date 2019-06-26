@@ -21,7 +21,7 @@ const app = express();
 // Initializing HTTP server
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
-const { generateCoordinates, uniqueid, addScore } = require('./libs/myLibGame.js');
+const { generateCoordinates, uniqueid, isPresent } = require('./libs/myLibGame.js');
 
 // Road's declaration
 const routes = require('./routes/index'); //chemin vers la route index
@@ -101,20 +101,25 @@ io.on('connection', function(socket) {
             socket.emit('idRound', id);
             socket.join(id);
         } else {
-            if (rounds[rounds.length - 1]["players"].length < 2) {
-                id = rounds[rounds.length - 1]["idRound"];
-                rounds[rounds.length - 1]["players"].push({ "login": data, "score": 0 });
-                socket.emit('idRound', rounds[rounds.length - 1]["idRound"]);
-                socket.join(rounds[rounds.length - 1]["idRound"]);
-                if (rounds[0]["players"].length == 2) {
-                    io.sockets.in(id).emit("Start", id);
-                    console.log("start");
-                }
+            if (isPresent(data, rounds)) {
+                console.log("User is taken");
+                socket.emit("userTaken", "This user is already in a game")
             } else {
-                id = uniqueid();
-                rounds.push({ "idRound": id, "players": [{ "login": data, "score": 0 }] });
-                socket.emit('idRound', id);
-                socket.join(id);
+                if (rounds[rounds.length - 1]["players"].length < 2) {
+                    id = rounds[rounds.length - 1]["idRound"];
+                    rounds[rounds.length - 1]["players"].push({ "login": data, "score": 0 });
+                    socket.emit('idRound', rounds[rounds.length - 1]["idRound"]);
+                    socket.join(rounds[rounds.length - 1]["idRound"]);
+                    if (rounds[0]["players"].length == 2) {
+                        io.sockets.in(id).emit("Start", id);
+                        console.log("start");
+                    }
+                } else {
+                    id = uniqueid();
+                    rounds.push({ "idRound": id, "players": [{ "login": data, "score": 0 }] });
+                    socket.emit('idRound', id);
+                    socket.join(id);
+                }
             }
         }
     });
