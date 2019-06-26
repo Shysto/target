@@ -96,27 +96,21 @@ io.on('connection', function(socket) {
         console.log('user received');
         console.log(`${data}`);
         if (rounds.length == 0) {
-            console.log("Cree partie 1")
             id = uniqueid();
             rounds.push({ "idRound": id, "players": [{ "login": data, "score": 0 }] });
             socket.emit('idRound', id);
             socket.join(id);
-            console.log(rounds)
         } else {
             if (rounds[rounds.length - 1]["players"].length < 2) {
-                console.log("rempli partie")
                 id = rounds[rounds.length - 1]["idRound"];
-                console.log("id : " + id)
                 rounds[rounds.length - 1]["players"].push({ "login": data, "score": 0 });
                 socket.emit('idRound', rounds[rounds.length - 1]["idRound"]);
                 socket.join(rounds[rounds.length - 1]["idRound"]);
-                console.log(rounds);
                 if (rounds[0]["players"].length == 2) {
                     io.sockets.in(id).emit("Start", id);
                     console.log("start");
                 }
             } else {
-                console.log("nouvelle partie")
                 id = uniqueid();
                 rounds.push({ "idRound": id, "players": [{ "login": data, "score": 0 }] });
                 socket.emit('idRound', id);
@@ -128,16 +122,11 @@ io.on('connection', function(socket) {
     let startM = new Date().getMinutes();
     console.log("id : " + id);
     socket.on('GO', function() {
-        console.log("Go : " + id)
         io.sockets.in(id).emit('round', { coordinates: generateCoordinates(), players: rounds[0]["players"] });
-        console.log(rounds)
     })
     socket.on('target', function(user) {
-        console.log(rounds)
         if (rounds.length != 0 && rounds[0]["players"].length == 2) {
-            console.log(rounds)
             setTimeout(function() {
-                console.log("Rounds : " + rounds[0]["players"])
                 if (new Date().getSeconds() + new Date().getMinutes() * 60 - startS - startM * 60 < 90) {
                     rounds[0]["players"].forEach(function(elt) {
                         if (elt.login == user) {
