@@ -101,6 +101,7 @@ io.on('connection', function(socket) {
             rounds.push({ "idRound": id, "players": [{ "login": data, "score": 0 }] });
             socket.emit('idRound', id);
             socket.join(id);
+            console.log(rounds)
         } else {
             if (rounds[rounds.length - 1]["players"].length < 2) {
                 console.log("rempli partie")
@@ -109,6 +110,7 @@ io.on('connection', function(socket) {
                 rounds[rounds.length - 1]["players"].push({ "login": data, "score": 0 });
                 socket.emit('idRound', rounds[rounds.length - 1]["idRound"]);
                 socket.join(rounds[rounds.length - 1]["idRound"]);
+                console.log(rounds);
                 if (rounds[0]["players"].length == 2) {
                     io.sockets.in(id).emit("Start", id);
                     console.log("start");
@@ -128,17 +130,27 @@ io.on('connection', function(socket) {
     socket.on('GO', function() {
         console.log("Go : " + id)
         io.sockets.in(id).emit('round', { coordinates: generateCoordinates(), players: rounds[0]["players"] });
+        console.log(rounds)
     })
     socket.on('target', function(user) {
+        console.log(rounds)
         if (rounds.length != 0 && rounds[0]["players"].length == 2) {
+            console.log(rounds)
             setTimeout(function() {
+                console.log("Rounds : " + rounds[0]["players"])
                 if (new Date().getSeconds() + new Date().getMinutes() * 60 - startS - startM * 60 < 90) {
-                    addScore(user, rounds[0]["players"])
+                    rounds[0]["players"].forEach(function(elt) {
+                        if (elt.login == user) {
+                            console.log(elt.login + " de score : " + elt.score)
+                            elt.score = elt.score + 1;
+                        }
+                    })
                     io.sockets.in(id).emit('round', { coordinates: generateCoordinates(), players: rounds[0]["players"] });
                     console.log(new Date().getSeconds() + new Date().getMinutes() * 60 - startS - startM * 60)
                 } else {
-                    io.sockets.in(id).emit('end', generateCoordinates());
-                    io.sockets.in(id).leave(id);
+                    io.sockets.in(id).emit('end');
+                    rounds = [];
+                    id = "";
                 }
             }, 50);
         }

@@ -32,6 +32,10 @@
 <script src="/socket.io/socket.io.js"></script>
 <script>
     $(document).ready(function() {
+        $("#startButton").on({
+            click: function(){
+                $("#startButton").hide();
+
         let players = [];
         $('#target').hide();
         const socket = io();
@@ -71,6 +75,11 @@
         socket.on('end', function(msg){
             console.log("END");
             $('#target').hide();
+            $("#startButton").show();
+            socket.disconnect();
+
+});
+            }
         })
     });
 </script>
@@ -78,6 +87,7 @@
 <body>
 <p id="target"></p>
 <ul id="score"></lu>
+<button id="startButton">Let's start!</button>
 </body>
 
 </html>
