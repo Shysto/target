@@ -6,10 +6,13 @@
 const mysql = require('mysql2');
 
 const connection = mysql.createConnection({
-    host: "localhost",
-    user: "web",
-    password: "motdepasse",
-    database: "target"
+
+  host: "localhost",
+  user: "root",
+  password: "",
+  port: "",
+  database: "target"
+
 });
 
 module.exports = { connection };

@@ -24,12 +24,14 @@ const io = require('socket.io')(http);
 const { generateCoordinates, uniqueid, addScore } = require('./libs/myLibGame.js');
 
 // Road's declaration
+
 const routes = require('./routes/index'); //chemin vers la route index
 const users = require('./routes/users'); //chemin vers la route users
 const game = require('./routes/game'); //chemin vers la route game
 const highscores = require('./routes/highscores'); //chemin vers la route game
 let rounds = [];
 let id;
+
 // Configuration for the "handlebars" template engine
 app.use(logger('dev'));
 app.set('views', path.join(__dirname, 'views'));
