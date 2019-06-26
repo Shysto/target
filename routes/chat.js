@@ -10,7 +10,7 @@ module.exports = router;
 
 
 // Register a new message
-router.post('/chat', function (req, res) {
+router.post('/', function (req, res) {
     const message = req.body.message;
     console.log(message);
 
@@ -25,6 +25,6 @@ router.post('/chat', function (req, res) {
         });
     } else {
         addChat(req["user"].login, message); // Creation of a new message if all goes well
-        res.render('chat', {name : req["user"].login})
+        res.redirect("/chat");
     }
 });

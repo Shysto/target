@@ -15,8 +15,8 @@
             font-size: 56px;
         }
         .logo b{
-            color: #00f6ff;
-            text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em #00c5ff, 0 0 0.5em #00b3ff, 0 0 0.1em #00faff, 0 10px 3px #000;
+            color: #ff6b03;
+            text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em #ff6b03, 0 0 0.5em #ff6b03, 0 0 0.1em #ff6b03, 0 10px 3px #000;
         }
         .logo b span{
             animation: blink linear infinite 2s;
@@ -69,7 +69,7 @@
     </style>
 </head>
 
-<body>
+<body onLoad="window.setTimeout('history.go(0)', 5000)">
 
 <div class="logo">
     <b>C<span>h</span>a<span>t</span></b>
@@ -91,10 +91,12 @@
 {{/if}}
 
 
-<div>
+<form  method="post" action="/chat">
     <input type="text" class="form-control" name="message" placeholder="Message">
-    <input type="button" class="btn btn-default" name="send" value="Send a message">
-</div>
+    <br/>
+    <button type="submit" class="btn btn-default">Submit</button>
+</form>
+
 
 </body>
 
