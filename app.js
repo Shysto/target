@@ -27,7 +27,8 @@ const { generateCoordinates } = require('./libs/functions');
 const routes = require('./routes/index'); 
 const users = require('./routes/users'); 
 const game = require('./routes/game'); 
-const highscores = require('./routes/highscores'); 
+const highscores = require('./routes/highscores');
+const chat = require('./routes/chat');
 
 // Configuration for the "handlebars" template engine
 app.use(logger('dev'));
@@ -88,6 +89,7 @@ app.use('/', routes); // 'localhost:3000' redirect to ./routes/index
 app.use('/users', users); // 'localhost:3000/users' redirect to ./routes/users
 app.use('/game', game); // 'localhost:3000/game' redirect to ./routes/users
 app.use('/highscores', highscores); // 'localhost:3000/highscores' redirect to ./routes/highscores
+app.use('/chat', chat); // 'localhost:3000/chat' redirect to ./routes/chat
 
 // Use of socket.io
 io.on('connection', function(socket) {
