@@ -24,12 +24,15 @@ const io = require('socket.io')(http);
 const { generateCoordinates, uniqueid, isPresent, findRound } = require('./libs/myLibGame.js');
 
 // Road's declaration
+
 const routes = require('./routes/index'); //chemin vers la route index
 const users = require('./routes/users'); //chemin vers la route users
 const game = require('./routes/game'); //chemin vers la route game
 const highscores = require('./routes/highscores'); //chemin vers la route game
+const chat = require('./routes/chat');
 let rounds = [];
 let id;
+
 // Configuration for the "handlebars" template engine
 app.use(logger('dev'));
 app.set('views', path.join(__dirname, 'views'));
@@ -89,6 +92,8 @@ app.use('/', routes); // 'localhost:3000' redirect to ./routes/index
 app.use('/users', users); // 'localhost:3000/users' redirect to ./routes/users
 app.use('/game', game); // 'localhost:3000/game' redirect to ./routes/users
 app.use('/highscores', highscores); // 'localhost:3000/highscores' redirect to ./routes/highscores
+app.use('/chat', chat); // 'localhost:3000/chat' redirect to ./routes/chat
+
 // Use of socket.io
 io.on('connection', function(socket) {
     console.log('A user is connected');

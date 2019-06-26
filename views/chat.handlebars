@@ -2,23 +2,21 @@
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Audiowide"/>
     <style>
         /*Target Logo*/
-
         body{
             font-family: "Audiowide";
             background-color:#1A1A1A;
+            color: whitesmoke;
         }
         .logo {
             text-align: center;
-
             margin: auto;
             position: relative;
             text-transform: uppercase;
             font-size: 56px;
         }
-
         .logo b{
-            color: #e6ff2f;
-            text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em #ffea3f, 0 0 0.5em #faff1c, 0 0 0.1em #fffe27, 0 10px 3px #000;
+            color: #ff6b03;
+            text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em #ff6b03, 0 0 0.5em #ff6b03, 0 0 0.1em #ff6b03, 0 10px 3px #000;
         }
         .logo b span{
             animation: blink linear infinite 2s;
@@ -28,9 +26,7 @@
                 color: inherit;
                 text-shadow: inherit;
             }
-
             80% {
-
                 text-shadow: none;
             }
             81% {
@@ -67,35 +63,42 @@
                     0 0 100px #0ff,
                     0 0 150px #0ff;
         }
-
         .back{
             text-transform: uppercase;
         }
-
-
-
     </style>
 </head>
 
-<body>
-
+<body onLoad="window.setTimeout('history.go(0)', 5000)">
 
 <div class="logo">
-    <b>L<span>og</span>i<span>n</b>
-</div>
+    <b>C<span>h</span>a<span>t</span></b>
+</div><br><br>
 
 
-<form method="post" action="/users/login">
-  <div class="form-group">
-    <label class="glow">Username</label>
-    <input type="text" class="form-control" name='username' placeholder="Username">
-  </div>
-  <div class="form-group">
-    <label class="glow">Password</label>
-    <input type="password" class="form-control" name='password' placeholder="Password">
-  </div>
-  <button type="submit" class="btn btn-default">Submit</button>
+{{#each user}}
+    <p>{{name}} : {{message}}</p>
+{{/each}}
+
+
+
+
+
+{{#if errors}}
+    {{#each errors}}
+        <div class="alert alert-danger">{{msg}}</div>
+    {{/each}}
+{{/if}}
+
+
+<form  method="post" action="/chat">
+    <input type="text" class="form-control" name="message" placeholder="Message">
+    <br/>
+    <button type="submit" class="btn btn-default">Submit</button>
 </form>
-<br/>
-<a class="btn btn-default back" href="/">Go Home</a>
+
+
 </body>
+
+
+

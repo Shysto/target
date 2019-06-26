@@ -2,3 +2,5 @@ node_modules/**
 __MACOSX/**
 package-lock.json
 .DS_Store
+.idea/**
+cmd.exe
