@@ -6,6 +6,7 @@
 
     <link href="https://fonts.googleapis.com/css?family=Monoton&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Audiowide"/>
     <style>
 
         * {
@@ -18,23 +19,40 @@
             font: 13px Helvetica, Arial;
         }
 
-        h1 {
-            font-size: 50px;
-            font-family: "Monoton", cursive;
-        }
+        /* ################################################# */
 
         #container {
             text-align: center;
-            font-family: 'Press Start 2P', cursive;
+            text-transform: uppercase;
+            /*font-family: 'Press Start 2P', cursive;*/
+            font-family: "Audiowide", cursive;
+            background-color:#1A1A1A;
         }
 
-        #users {
+        h1 {
+            font-size: 56px;
+            color: #e6ff2f;
+            text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em #ffea3f, 0 0 0.5em #faff1c, 0 0 0.1em #fffe27, 0 10px 3px #000;
+            /*font-family: "Monoton", cursive;*/
+        }
+
+        #user-box {
             margin-top: 20px;
             margin-bottom: 50px;
         }
 
-        .item-user {
+        .user {
             font-size: 20px;
+            color:white;
+            text-shadow:
+                    0 0 5px #fff,
+                    0 0 10px #fff,
+                    0 0 20px #fff,
+                    0 0 40px #ffffff,
+                    0 0 80px #ffffff,
+                    0 0 90px #ffffff,
+                    0 0 100px #0ff,
+                    0 0 150px #0ff;
         }
 
         div input[type=text] {
@@ -115,9 +133,9 @@
 <div id="container">
     <h1>Ranking</h1>
 
-    <div id="users">
+    <div id="user-box">
         {{#each user}}
-            <p class="item-user">{{numero}} - {{name}} : {{highScore}}</p>
+            <p class="user">{{numero}} - {{name}} : {{highScore}}</p>
         {{/each}}
     </div>
 
