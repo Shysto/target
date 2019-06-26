@@ -12,7 +12,6 @@ const connection = mysql.createConnection({
   password: "",
   port: "",
   database: "target"
-
 });
 
 module.exports = { connection };
