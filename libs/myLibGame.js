@@ -1,5 +1,5 @@
 function generateCoordinates() {
-    return [Math.floor(Math.random() * 98 + 1), Math.floor(Math.random() * 98 + 1)]
+    return [Math.floor(Math.random() * 90 + 5), Math.floor(Math.random() * 90 + 5)]
 }
 
 
@@ -18,8 +18,19 @@ function uniqueid() {
     return (idstr);
 }
 
+function addScore(user, users) {
+    users.forEach(function(elt) {
+        if (elt.login == user) {
+            console.log(elt.login + " de score : " + elt.score)
+            elt.score = elt.score + 1;
+        }
+    })
+}
+
+
 
 module.exports = {
     generateCoordinates,
-    uniqueid
+    uniqueid,
+    addScore
 }

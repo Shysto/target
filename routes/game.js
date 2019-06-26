@@ -1,8 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var { ensureAuthenticated } = require('../libs/myLibUtils');
-const io = require('socket.io');
-const socket = io();
 
 //Call game view if user is connected
 router.get('/', ensureAuthenticated, function(req, res) {
