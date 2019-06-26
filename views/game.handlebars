@@ -26,21 +26,27 @@
         .displayScore{
             font-size: 50px;
         }
+        #box{
+            width:80vw;
+            height:80vh;
+            right:
+        }
     </style>
 </head>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script>
     $(document).ready(function() {
+        let players = [];
+        let idRound;
+        let username;
+        let socket=io();
         $("#startButton").on({
             click: function(){
                 $("#startButton").hide();
 
-        let players = [];
         $('#target').hide();
-        const socket = io();
-        let idRound;
-        var username = "{{username}}";
+        username = "{{username}}";
         console.log(username);
         socket.emit('setUsername',username);
 
@@ -69,22 +75,33 @@
         socket.on("Start", function(msg){
             console.log("START");
             $('#target').show();
-            socket.emit('GO');
+            socket.emit('GO',{"idRound": idRound, "user": username});
         })
         $('#target').on({
             click: function() {
-                socket.emit('target', username);
+                socket.emit('target', {"idRound": idRound, "user": username});
             }
+        })
+
+        }
         })
         socket.on('end', function(msg){
             console.log("END");
             $('#target').hide();
             $("#startButton").show();
             socket.disconnect();
-
-});
-            }
-        })
+        });
+            socket.on('abort', function(msg){
+            console.log("ABORT!");
+            $('#target').hide();
+            $("#startButton").show();
+            socket.disconnect();
+            socket = io();
+        });
+        window.addEventListener('beforeunload', function (e) {
+            socket.emit('leaving', {"idRound": idRound, "user": username});
+            console.log("Unload");
+        });
     });
 </script>
 
