@@ -1,9 +1,30 @@
 const express = require('express');
 const router = express.Router();
 const { ensureAuthenticated } = require('../libs/myLibUtils.js');
-const { displayChat } = require('../libs/model.js');
+const { displayChat, addChat } = require('../libs/model.js');
 
 // Show the sixth last messages if the user is logged in
 router.get('/', ensureAuthenticated, displayChat);
 
 module.exports = router;
+
+
+// Register a new message
+router.post('/chat', function (req, res) {
+    const message = req.body.message;
+    console.log(message);
+
+// Input validation
+    req.checkBody('message', 'message is required').notEmpty(); // report if message is not provided
+
+    const errors = req.validationErrors();
+
+    if (errors) {
+        res.render('chat', {
+            errors: errors
+        });
+    } else {
+        addChat(req["user"].login, message); // Creation of a new message if all goes well
+        res.render('chat', {name : req["user"].login})
+    }
+});
