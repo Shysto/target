@@ -21,6 +21,10 @@
             position: absolute;
             top: 0;
             left: 0;
+            display: none;
+        }
+        .displayScore{
+            font-size: 50px;
         }
     </style>
 </head>
@@ -28,14 +32,53 @@
 <script src="/socket.io/socket.io.js"></script>
 <script>
     $(document).ready(function() {
+        $("#startButton").on({
+            click: function(){
+                $("#startButton").hide();
+
+        let players = [];
+        $('#target').hide();
         const socket = io();
-        socket.on('coordonnee', function(coordonnee) {
-            console.log(coordonnee);
-            $('#target').css('transform', `translate(${coordonnee[0]}vw,${coordonnee[1]}vh)`);
+        let idRound;
+        var username = "{{username}}";
+        console.log(username);
+        socket.emit('setUsername',username);
+        
+        socket.on('round', function(msg) {
+            console.log(msg["coordinates"]);
+            $('#target').css('transform', `translate(${msg["coordinates"][0]}vw,${msg["coordinates"][1]}vh)`);
+            players = msg["players"];
+            var i;
+            $('li').remove();
+            for (i = 0; i < players.length; i++) {
+                const unLi = $("<li></li>");
+                unLi.html(`${players[i]["login"]} : ${players[i]["score"]}`);
+                console.log("Score displayed");
+                unLi.addClass("displayScore");
+                $("#score").append(unLi);
+            }
         });
+        socket.on('idRound', function(id){
+            idRound = id;
+            console.log(idRound);
+        })
+        socket.on("Start", function(msg){
+            console.log("START");
+            $('#target').show();
+            socket.emit('GO');
+        })
         $('#target').on({
             click: function() {
-                socket.emit('cible', 'touchee');
+                socket.emit('target', username);
+            }
+        })
+        socket.on('end', function(msg){
+            console.log("END");
+            $('#target').hide();
+            $("#startButton").show();
+            socket.disconnect();
+
+});
             }
         })
     });
@@ -43,6 +86,8 @@
 
 <body>
 <p id="target"></p>
+<ul id="score"></lu>
+<button id="startButton">Let's start!</button>
 </body>
 
 </html>
