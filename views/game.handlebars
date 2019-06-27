@@ -55,7 +55,7 @@
         $("#startButton").on({
             click: function(){
                 $("#startButton").hide();
-        let socket=io();
+        socket=io();
         $('#target').hide();
         username = "{{username}}";
         console.log(username);
@@ -103,7 +103,7 @@
             $("#startButton").show();
             socket.disconnect();
         });
-            socket.on('abort', function(msg){
+        socket.on('abort', function(msg){
             console.log("ABORT!");
             $('#target').hide();
             $("#startButton").show();
@@ -117,6 +117,10 @@
         }
         })
 
+<<<<<<< Updated upstream
+=======
+       
+>>>>>>> Stashed changes
     });
 </script>
 

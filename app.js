@@ -123,6 +123,7 @@ io.on('connection', function(socket) {
                 io.sockets.in(shot.idRound).emit('end');
                 updateHighscoreAll(rounds[findRound(shot.idRound, rounds)]);
                 rounds.splice(findRound(shot.idRound, rounds), 1);
+                console.log('End of round');
             }
         }
     })
