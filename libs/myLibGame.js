@@ -1,7 +1,7 @@
 const { updateHighscore } = require("./model.js");
 
 function generateCoordinates() {
-    return [Math.floor(Math.random() * 100), Math.floor(Math.random() * 100)]
+    return [Math.floor(Math.random() * 100), Math.floor(Math.random() * 100)];
 }
 
 

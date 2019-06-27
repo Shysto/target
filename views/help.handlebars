@@ -4,87 +4,43 @@
         /*Target Logo*/
 
         body {
-            font-family: "Audiowide";
-            background-color: #1A1A1A;
+            text-transform: lowercase;
+            color: whitesmoke;
         }
 
-        .logo {
+        h1 {
             text-align: center;
-
-            margin: auto;
-            position: relative;
-            text-transform: uppercase;
-            font-size: 56px;
+            font-size: 20px;
         }
 
-        .logo b {
-            color: #e6ff2f;
-            text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em #ffea3f, 0 0 0.5em #faff1c, 0 0 0.1em #fffe27, 0 10px 3px #000;
+        h2 {
+            text-align: center;
+            font-size: 18px;
         }
 
-        .logo b span {
-            animation: blink linear infinite 2s;
+        p {
+            text-align: center;
+            font-size: 15px;
+            width: 50%;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        @keyframes blink {
-            78% {
-                color: inherit;
-                text-shadow: inherit;
-            }
+        a {
+            color: #ff61db;
+        }
+        
+        .head b {
+            color: #87d548;
+            text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em #93ff75, 0 0 0.5em #eaff0b, 0 0 0.1em #33ff47, 0 10px 3px #000;
 
-            80% {
-
-                text-shadow: none;
-            }
-
-            81% {
-                color: inherit;
-                text-shadow: inherit;
-            }
-
-            82% {
-                color: #333;
-                text-shadow: none;
-            }
-
-            83% {
-                color: inherit;
-                text-shadow: inherit;
-            }
-
-            92% {
-                color: #333;
-                text-shadow: none;
-            }
-
-            92.5% {
-                color: inherit;
-                text-shadow: inherit;
-            }
         }
 
-        .glow {
-            color: white;
-            text-transform: uppercase;
-            text-shadow:
-                0 0 5px #fff,
-                0 0 10px #fff,
-                0 0 20px #fff,
-                0 0 40px #ffffff,
-                0 0 80px #ffffff,
-                0 0 90px #ffffff,
-                0 0 100px #0ff,
-                0 0 150px #0ff;
-        }
-
-        .back {
-            text-transform: uppercase;
-        }
     </style>
 </head>
 
 <body>
-    <div class="logo">
+    <div class="head">
         <b>H<span>e</span>l<span>p</b>
     </div>
 
@@ -107,5 +63,4 @@
         friends!</p>
 
     <br />
-    <a class="btn btn-default back" href="/">Go Home</a>
 </body>

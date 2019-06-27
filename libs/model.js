@@ -216,7 +216,6 @@ function toFree(log) {
                 console.log(err);
             }
         }
-
     );
 }
 
