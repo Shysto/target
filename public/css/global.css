@@ -168,9 +168,7 @@ body{
 
 #target {
     cursor:pointer;
-    position: absolute;
-    top: calc(50% - 150px);
-    left: calc(50% - 150px);
+    position: relative;
     width: 100px;
     height: 100px;
     border-radius: 50%;
@@ -179,8 +177,10 @@ body{
             0 0 1px #fff,
 }
 
+/*footer*/
 
 footer{
+    position:relative;
     color:whitesmoke;
 }
 
@@ -189,7 +189,9 @@ footer p {
 }
 
 #goHome{
-    font-size: 20px;
+    position:relative;
+    left:1%;
+    font-size: 100%;
 }
 
 
@@ -209,7 +211,7 @@ footer p {
 @media (max-width: 900px) {
     .btn{
         font-size: 10px;
-        width:40%;
+        width:30%;
     }
     #TARGET {
         top:5%;
@@ -217,4 +219,9 @@ footer p {
     p {
         font-size: 3.5em;
     }
+
+    footer{
+        width:50%;
+    }
+
 }
