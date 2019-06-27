@@ -29,22 +29,35 @@ const passportLocal = new LocalStrategy(function (username, password, done) {
 
 
 // Creation of a new user
-function createUser(log,pass){
+function createUser(log, pass, req, res){
     connection.query(
-        "INSERT INTO users (login,password,isAdmin,isBlacklisted,highscore) VALUES (?, ?, 0, 0, 0)", [log, pass],
-        function(err, results, fields) {
-            if (err == null){
-                console.log("User added");
+        "SELECT * FROM users WHERE login = ?", [log], function(err, results, fields){
+            if ((results != "undefined") && !(results.length)) {
+                connection.query(
+                    "INSERT INTO users (login, password, isAdmin, isBlacklisted, highscore) VALUES (?, ?, 0, 0, 0)", [log, pass],
+                    function(err, results, fields) {
+                        if (err == null){
+                            console.log("User added");
+                            req.flash('success_msg', 'You are registered and can now log in.');
+                            res.redirect('/users/login');
+                        }
+                        else{
+                            console.log(err);
+                        }
+                    }
+                );
             }
             else{
-                console.log(err);
+                console.log("This username is already taken");
+                req.flash('error_msg', 'This user already exists.');
+                res.redirect('/users/register');
             }
         }
     );
 }
 
 // High Score updating if the new score is better than the score previously entered
-function updateHighscore(user,hs){
+function updateHighscore(user, hs){
     connection.query(
         "UPDATE users SET highscore = ? WHERE login = ? AND highscore < ?", [hs, user, hs],
         function(err, results, fields) {
