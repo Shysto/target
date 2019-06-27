@@ -1,228 +1,4 @@
 <head>
-    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Audiowide" />
-    <style>
-        body {
-            background-color: #222222;
-            background: repeating-linear-gradient(45deg, #2b2b2b 0%, #2b2b2b 10%, #222222 0%, #222222 50%) 0 / 15px 15px;
-        }
-
-        /*Neon*/
-        p {
-            text-align: center;
-            font-size: 7em;
-            margin: 20px 0 20px 0;
-        }
-
-        a {
-            text-decoration: none;
-            -webkit-transition: all 0.5s;
-            -moz-transition: all 0.5s;
-            transition: all 0.5s;
-        }
-
-        p:nth-child(1) a {
-            color: #fff;
-            font-family: Audiowide;
-            -webkit-animation: neon1 1.5s ease-in-out infinite alternate;
-            -moz-animation: neon1 1.5s ease-in-out infinite alternate;
-            animation: neon1 1.5s ease-in-out infinite alternate;
-        }
-
-
-        h2{
-            color: #ffffff;
-            -webkit-animation: none;
-            -moz-animation: none;
-            animation: none;
-            font-family: Audiowide;
-            text-transform: uppercase;
-        }
-
-        p:nth-child(2) a {
-            font-size: 1.5em;
-            color: #228DFF;
-            font-family: Audiowide;
-            text-transform: uppercase;
-        }
-
-
-        p:nth-child(3) a {
-            color: #FFDD1B;
-            font-family: Audiowide;
-            text-transform: uppercase;
-        }
-
-
-        p:nth-child(4) a {
-            color: #B6FF00;
-            font-family: Audiowide;
-            text-transform: uppercase;
-            font-size: 0.8em;
-        }
-
-
-        p:nth-child(5) a {
-            color: #FF9900;
-            font-family: Audiowide;
-            text-transform: uppercase;
-        }
-
-
-        p:nth-child(6) a {
-            color: #BA01FF;
-            font-family: Audiowide;
-            text-transform: uppercase;
-        }
-
-
-        p:nth-child(7) a {
-            color: #00c4ff;
-            font-family: Audiowide;
-            text-transform: uppercase;
-        }
-
-        p:nth-child(8) a {
-            color: red;
-            font-family: Audiowide;
-            text-transform: uppercase;
-        }
-
-        .anim a:hover {
-            -webkit-animation: neon2 1.5s ease-in-out infinite alternate;
-            -moz-animation: neon2 1.5s ease-in-out infinite alternate;
-            animation: neon2 1.5s ease-in-out infinite alternate;
-        }
-
-        p a:hover {
-            color: #ffffff;
-        }
-        /*glow for webkit*/
-
-
-        @-webkit-keyframes neon2 {
-            from {
-                text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px rgb(255, 255, 255), 0 0 70px #228DFF, 0 0 80px #228DFF, 0 0 100px #228DFF, 0 0 150px #228DFF;
-            }
-            to {
-                text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #ffffff, 0 0 35px #228DFF, 0 0 40px #228DFF, 0 0 50px #228DFF, 0 0 75px #228DFF;
-            }
-        }
-
-        /*TARGET*/
-
-        @keyframes scaleShield {
-            to {
-                width: 500px;
-                height: 500px;
-            }
-        }
-
-        @keyframes scaleOuter {
-            to {
-                width: 400px;
-                height: 400px;
-            }
-        }
-
-        @keyframes scaleInner {
-            to {
-                width: 300px;
-                height: 300px;
-            }
-        }
-
-
-        .shield {
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            z-index: 0;
-            box-shadow:
-                    0 0 60px 30px #fcff0d,  /* inner white */
-                    0 0 140px 90px #e9fff4; /* outer cyan */
-            animation: scaleShield .25s .1s forwards ease;
-            filter: sepia(40%) hue-rotate(160deg) invert(100%) brightness(130%)
-            saturate(450%);
-        }
-
-        .outer {
-            width: 0;
-            height: 0;
-            z-index: 1;
-            animation: scaleOuter .25s .05s forwards ease;
-            filter: invert(1) brightness(300%);
-        }
-
-        .inner {
-            width: 0;
-            height: 0;
-            z-index: 2;
-            animation: scaleInner .25s forwards ease;
-            filter: sepia(40%) hue-rotate(160deg) invert(100%) brightness(130%)
-            saturate(450%);
-        }
-
-        .centre {
-            width: 190px;
-            height: 190px;
-            z-index: 3;
-            filter: sepia(40%) hue-rotate(10deg) invert(100%) brightness(130%)
-            saturate(450%);
-        }
-
-
-        .shield,
-        .outer,
-        .inner,
-        .centre {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translateX(-50%) translateY(-50%) scale(.6);
-            border-radius: 50%;
-
-            background-image: -webkit-radial-gradient(
-                    50% 0%,
-                    8% 50%,
-                    hsla(0, 0%, 100%, 0.5) 0%,
-                    hsla(0, 0%, 100%, 0) 100%
-            ),
-
-            -webkit-radial-gradient(50% 50%, 200% 50%, hsla(0, 0%, 80%, 1) 5%, hsla(
-                            0,
-                            0%,
-                            85%,
-                            1
-                    )
-                    30%, hsla(0, 0%, 60%, 1) 100%);
-        &:before,
-
-        &:before {
-             transform: rotate(65deg);
-         }
-        &:after {
-             transform: rotate(-65deg);
-         }
-        }
-
-
-        #TARGET{
-            position:relative;
-            margin-top:150px;
-            margin-bottom:330px;
-        }
-
-        /*REEEEEEEEEEESPONSIVE*/
-
-        @media (max-width: 650px) {
-            #container {
-                width: 100%;
-            }
-            p {
-                font-size: 3.5em;
-            }
-        }
-    </style>
 </head>
 
 
@@ -230,10 +6,13 @@
     <div class="shield"></div>
     <div class="outer"></div>
     <div class="inner"></div>
-    <div class="centre"></div>
 </div>
+<br/>
+<br/>
+
+<div>
 {{#if user}}
-    <p class="anim"  ><a href="/game">Play</a></p>
+    <p class="anim"><a href="/game">Play</a></p>
     <p class="anim"><a href="/chat">Chat</a></p>
     <p class="anim"><a href="/highscores">High Score</a></p>
     <p class="anim"><a href="/help">Help</a></p>
@@ -246,6 +25,6 @@
     <p class="anim" ><a href="/highscores">High Score</a></p>
     <p class="anim" ><a href="/help">Help</a></p>
 {{/if}}
-
+</div>
 
 

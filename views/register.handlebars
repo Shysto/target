@@ -1,85 +1,20 @@
 <head>
-<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Audiowide"/>
 <style>
-    /*Target Logo*/
-
-    body{
-        font-family: "Audiowide";
-        background-color:#1A1A1A;
+    .head b{
+        color: #40aaff;
+        text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em #327cff, 0 0 0.5em #1d9bff, 0 0 0.1em #33aeff, 0 10px 3px #000;
     }
-.logo {
-    text-align: center;
-
-    margin: auto;
-    position: relative;
-    text-transform: uppercase;
-    font-size: 56px;
-}
-
-.logo b{
-color: #00f6ff;
-text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em #00c5ff, 0 0 0.5em #00b3ff, 0 0 0.1em #00faff, 0 10px 3px #000;
-}
-.logo b span{
-animation: blink linear infinite 2s;
-}
-@keyframes blink {
-78% {
-color: inherit;
-text-shadow: inherit;
-}
-
-80% {
-
-text-shadow: none;
-}
-81% {
-color: inherit;
-text-shadow: inherit;
-}
-82% {
-color: #333;
-text-shadow: none;
-}
-83% {
-color: inherit;
-text-shadow: inherit;
-}
-92% {
-color: #333;
-text-shadow: none;
-}
-92.5% {
-color: inherit;
-text-shadow: inherit;
-}
-}
-    .glow{
-        color:white;
-        text-transform: uppercase;
-        text-shadow:
-                0 0 5px #fff,
-                0 0 10px #fff,
-                0 0 20px #fff,
-                0 0 40px #ffffff,
-                0 0 80px #ffffff,
-                0 0 90px #ffffff,
-                0 0 100px #0ff,
-                0 0 150px #0ff;
+    input{
+        align-content:center;
     }
-
-    .back{
-        text-transform: uppercase;
-    }
-
-
 
 </style>
 </head>
 
 <body>
 
-<div class="logo">
+
+<div class="head">
 <b>r<span>eg</span>i<span>s</span>ter</b>
 </div>
 
@@ -92,18 +27,20 @@ text-shadow: inherit;
 <form method="post" action="/users/register">
   <div class="form-group">
     <label class="glow">Username</label>
+      <br/>
     <input type="text" class="form-control" placeholder="Username" name="username">
   </div>
   <div class="form-group">
     <label class="glow">Password</label>
+      <br/>
     <input type="password" class="form-control" placeholder="Password" name="password">
   </div>
   <div class="form-group">
     <label class="glow">Confirm Password</label>
+      <br/>
     <input type="password" class="form-control" placeholder="Password" name="password2">
   </div>
-  <button type="submit" class="btn btn-default">Submit</button>
+  <button type="submit" class="btn" >Send</button>
 </form>
 <br/>
-<a class="btn btn-default back" href="/">Go Home</a>
 </body>

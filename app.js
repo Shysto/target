@@ -80,15 +80,16 @@ app.use(expressValidator({
 // Connect flash (sending messages)
 app.use(flash());
 
-// Redirections
 app.use(function(req, res, next) {
     res.locals.success_msg = req.flash('success_msg');
     res.locals.error_msg = req.flash('error_msg');
     res.locals.error = req.flash('error');
     res.locals.user = req.user || null;
     next();
+
 });
 
+// Redirections
 app.use('/', routes); // 'localhost:3000' redirect to ./routes/index
 app.use('/users', users); // 'localhost:3000/users' redirect to ./routes/users
 app.use('/game', game); // 'localhost:3000/game' redirect to ./routes/users
