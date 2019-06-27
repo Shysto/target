@@ -21,7 +21,7 @@ const app = express();
 // Initializing HTTP server
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
-const { generateCoordinates, uniqueid, isPresent, findRound } = require('./libs/myLibGame.js');
+const { generateCoordinates, uniqueid, isPresent, findRound, updateHighscoreAll } = require('./libs/myLibGame.js');
 
 // Road's declaration
 
@@ -99,6 +99,7 @@ app.use('/help', help); // 'localhost:3000/help' redirect to ./routes/help
 // Use of socket.io
 io.on('connection', function(socket) {
     console.log('A user is connected');
+    let start = Date.now();
     socket.on('setUsername', function(data) {
         console.log('User received');
         console.log(`${data}`);
@@ -122,6 +123,7 @@ io.on('connection', function(socket) {
                     if (rounds[findRound(id, rounds)]["players"].length == 2) {
                         io.sockets.in(id).emit("Start", id);
                         console.log("start");
+                        start = Date.now();
                     }
                 } else {
                     id = uniqueid();
@@ -133,7 +135,7 @@ io.on('connection', function(socket) {
             }
         }
     });
-    let start = Date.now();
+
     console.log("id : " + id);
     socket.on('GO', function(shot) {
         console.log("i = " + findRound(shot.idRound, rounds))
@@ -142,10 +144,10 @@ io.on('connection', function(socket) {
     socket.on('target', function(shot) {
         if (rounds.length != 0 && rounds[findRound(shot.idRound, rounds)]["players"].length == 2) {
             setTimeout(function() {
-                if (Date.now() - start < 90 * 1000) {
+                if (Date.now() - start < 15 * 1000) {
                     rounds[findRound(shot.idRound, rounds)]["players"].forEach(function(elt) {
                         if (elt.login == shot.user) {
-                            onsole.log("Score de " + elt.login + " : " + elt.score);
+                            console.log("Score de " + elt.login + " : " + elt.score);
                             elt.score = elt.score + 1;
                         }
                     })
@@ -153,6 +155,7 @@ io.on('connection', function(socket) {
                     console.log(Date.now() - start)
                 } else {
                     io.sockets.in(shot.idRound).emit('end');
+                    updateHighscoreAll(rounds[findRound(shot.idRound, rounds)]);
                     rounds.splice(findRound(shot.idRound, rounds), 1);
                 }
             }, 50);
@@ -162,6 +165,9 @@ io.on('connection', function(socket) {
     socket.on('leaving', function(shot) {
         console.log("Player leaving");
         io.sockets.in(shot.idRound).emit('abort');
+        if (rounds.length != 0) {
+            updateHighscoreAll(rounds[findRound(shot.idRound, rounds)]);
+        }
         rounds.splice(findRound(shot.idRound, rounds), 1)
     })
 

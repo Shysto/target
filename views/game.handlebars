@@ -3,7 +3,8 @@
 
 <head>
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Audiowide"/>
-    <title>Socket.IO chat</title>
+    <link rel="stylesheet" href="../css/style.css"/>
+    <title>Game</title>
     <style>
 
         * {
@@ -36,6 +37,11 @@
         #startButton{
             text-transform: uppercase;
         }
+        #startButton{
+            vertical-align: middle;
+            display:block;
+            }
+        
     </style>
 </head>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -91,10 +97,7 @@
                 socket.emit('target', {"idRound": idRound, "user": username});
             }
         })
-
-        }
-        })
-        socket.on('end', function(msg){
+            socket.on('end', function(msg){
             console.log("END");
             $('#target').hide();
             $("#startButton").show();
@@ -111,6 +114,9 @@
             socket.emit('leaving', {"idRound": idRound, "user": username});
             console.log("Unload");
         });
+        }
+        })
+
     });
 </script>
 
@@ -118,7 +124,7 @@
 <p id="target"></p>
 <p id="error"></p>
 <ul id="score"></lu>
-<button id="startButton">Let's start!</button>
+<p id="startButton" class="anim">Let's start!</p>
     <br/>
     <br/>
     <br/>

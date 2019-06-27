@@ -1,3 +1,5 @@
+const { updateHighscore } = require("./model.js");
+
 function generateCoordinates() {
     return [Math.floor(Math.random() * 100), Math.floor(Math.random() * 100)]
 }
@@ -52,6 +54,13 @@ function findRound(idRound, rounds) {
     return i - 1;
 }
 
+function updateHighscoreAll(round) {
+    round["players"].forEach(function(player) {
+        updateHighscore(player["login"], player["score"]);
+        console.log("Updating score of player : " + player["login"])
+    });
+}
+
 
 
 module.exports = {
@@ -59,5 +68,6 @@ module.exports = {
     uniqueid,
     addScore,
     isPresent,
-    findRound
+    findRound,
+    updateHighscoreAll
 }
