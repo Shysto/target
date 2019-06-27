@@ -3,69 +3,14 @@
     <style>
         /*Target Logo*/
         body{
-            font-family: "Audiowide";
-            background-color:#1A1A1A;
-            color: whitesmoke;
+            text-transform: lowercase;
+            font-size: 10px;
         }
-        .logo {
-            text-align: center;
-            margin: auto;
-            position: relative;
-            text-transform: uppercase;
-            font-size: 56px;
-        }
-        .logo b{
-            color: #ff6b03;
-            text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em #ff6b03, 0 0 0.5em #ff6b03, 0 0 0.1em #ff6b03, 0 10px 3px #000;
-        }
-        .logo b span{
-            animation: blink linear infinite 2s;
-        }
-        @keyframes blink {
-            78% {
-                color: inherit;
-                text-shadow: inherit;
-            }
-            80% {
-                text-shadow: none;
-            }
-            81% {
-                color: inherit;
-                text-shadow: inherit;
-            }
-            82% {
-                color: #333;
-                text-shadow: none;
-            }
-            83% {
-                color: inherit;
-                text-shadow: inherit;
-            }
-            92% {
-                color: #333;
-                text-shadow: none;
-            }
-            92.5% {
-                color: inherit;
-                text-shadow: inherit;
-            }
-        }
-        .glow{
-            color:white;
-            text-transform: uppercase;
-            text-shadow:
-                    0 0 5px #fff,
-                    0 0 10px #fff,
-                    0 0 20px #fff,
-                    0 0 40px #ffffff,
-                    0 0 80px #ffffff,
-                    0 0 90px #ffffff,
-                    0 0 100px #0ff,
-                    0 0 150px #0ff;
-        }
-        .back{
-            text-transform: uppercase;
-        }
+
+        .head b{
+            color: #ff6600;
+            text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em #ff5b05, 0 0 0.5em #ff4700, 0 0 0.1em #ff7b00, 0 10px 3px #000;
+        }s
 
     </style>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -101,7 +46,7 @@
             }
         });
 
-        window.setInterval(load,100);
+        window.setInterval(load,1000);
 
 
     </script>
@@ -109,17 +54,17 @@
 
 <body>
 
-<div class="logo">
+<div class="head">
     <b>C<span>h</span>a<span>t</span></b>
 </div><br><br>
 
 <div id="messages">
 </div>
 
-
+<div id="newMessage">
 {{#if errors}}
     {{#each errors}}
-        <div class="alert alert-danger">{{msg}}</div>
+        <div class="glow">{{msg}}</div>
     {{/each}}
 {{/if}}
 
@@ -127,10 +72,11 @@
 <form  method="post" action="/chat">
     <input id="text" type="text" class="form-control" name="message" placeholder="Message">
     <br/>
-    <button type="submit" class="btn btn-default">Submit</button>
+    <button id="submit" type="submit" class="btn">Submit</button>
 </form>
 
-
+</div>
+<br/>
 </body>
 
 

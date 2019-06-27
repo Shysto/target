@@ -95,7 +95,8 @@ app.use('/', routes); // 'localhost:3000' redirect to ./routes/index
 app.use('/users', users); // 'localhost:3000/users' redirect to ./routes/users
 app.use('/game', game); // 'localhost:3000/game' redirect to ./routes/users
 app.use('/highscores', highscores); // 'localhost:3000/highscores' redirect to ./routes/highscores
-app.use('/messages', messages); // 'localhost:3000/chat' redirect to ./routes/messages
+app.use('/messages', messages); // 'localhost:3000/messages' redirect to ./routes/messages
+app.use('/chat', chat); // 'localhost:3000/chat' redirect to ./routes/chat
 app.use('/help', help); // 'localhost:3000/help' redirect to ./routes/help
 
 // Use of socket.io
