@@ -8,4 +8,4 @@ An online shooting game
 - Go to the local repository
 - Install dependencies with : `npm install`
 - Start the server with : `npm start`
-- Play!
+- Play on URL localhost:3000
