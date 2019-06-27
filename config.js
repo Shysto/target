@@ -1,10 +1,10 @@
 // connexion à la base de données (similaire au fichier config en php)
 const mysql = require('mysql');
 const connection = mysql.createConnection({
+
     host: "localhost",
-    user: "root",
-    password: "",
-    // port: "8889",
+    user: "web",
+    password: "motdepasse",
     database: "target"
 });
 
