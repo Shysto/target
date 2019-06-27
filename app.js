@@ -21,7 +21,7 @@ const app = express();
 // Initializing HTTP server
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
-const { generateCoordinates, uniqueid, addScore } = require('./libs/myLibGame.js');
+const { generateCoordinates, uniqueid, isPresent, findRound } = require('./libs/myLibGame.js');
 
 // Road's declaration
 
@@ -105,51 +105,63 @@ io.on('connection', function(socket) {
             rounds.push({ "idRound": id, "players": [{ "login": data, "score": 0 }] });
             socket.emit('idRound', id);
             socket.join(id);
+            console.log(id);
         } else {
-            if (rounds[rounds.length - 1]["players"].length < 2) {
-                id = rounds[rounds.length - 1]["idRound"];
-                rounds[rounds.length - 1]["players"].push({ "login": data, "score": 0 });
-                socket.emit('idRound', rounds[rounds.length - 1]["idRound"]);
-                socket.join(rounds[rounds.length - 1]["idRound"]);
-                if (rounds[0]["players"].length == 2) {
-                    io.sockets.in(id).emit("Start", id);
-                    console.log("start");
-                }
+            if (isPresent(data, rounds)) {
+                console.log("User is taken");
+                socket.emit("userTaken", "This user is already in a game")
             } else {
-                id = uniqueid();
-                rounds.push({ "idRound": id, "players": [{ "login": data, "score": 0 }] });
-                socket.emit('idRound', id);
-                socket.join(id);
+                if (rounds[rounds.length - 1]["players"].length < 2) {
+                    id = rounds[rounds.length - 1]["idRound"];
+                    console.log(id);
+                    rounds[rounds.length - 1]["players"].push({ "login": data, "score": 0 });
+                    socket.emit('idRound', rounds[rounds.length - 1]["idRound"]);
+                    socket.join(rounds[rounds.length - 1]["idRound"]);
+                    if (rounds[findRound(id, rounds)]["players"].length == 2) {
+                        io.sockets.in(id).emit("Start", id);
+                        console.log("start");
+                    }
+                } else {
+                    id = uniqueid();
+                    console.log(id);
+                    rounds.push({ "idRound": id, "players": [{ "login": data, "score": 0 }] });
+                    socket.emit('idRound', id);
+                    socket.join(id);
+                }
             }
         }
     });
-    let startS = new Date().getSeconds();
-    let startM = new Date().getMinutes();
+    let start = Date.now();
     console.log("id : " + id);
-    socket.on('GO', function() {
-        io.sockets.in(id).emit('round', { coordinates: generateCoordinates(), players: rounds[0]["players"] });
+    socket.on('GO', function(shot) {
+        console.log("i = " + findRound(shot.idRound, rounds))
+        io.sockets.in(shot.idRound).emit('round', { coordinates: generateCoordinates(), players: rounds[findRound(shot.idRound, rounds)]["players"] });
     })
-    socket.on('target', function(user) {
-        if (rounds.length != 0 && rounds[0]["players"].length == 2) {
+    socket.on('target', function(shot) {
+        if (rounds.length != 0 && rounds[findRound(shot.idRound, rounds)]["players"].length == 2) {
             setTimeout(function() {
-                if (new Date().getSeconds() + new Date().getMinutes() * 60 - startS - startM * 60 < 90) {
-                    rounds[0]["players"].forEach(function(elt) {
-                        if (elt.login == user) {
+                if (Date.now() - start < 90 * 1000) {
+                    rounds[findRound(shot.idRound, rounds)]["players"].forEach(function(elt) {
+                        if (elt.login == shot.user) {
                             console.log(elt.login + " de score : " + elt.score)
                             elt.score = elt.score + 1;
                         }
                     })
-                    io.sockets.in(id).emit('round', { coordinates: generateCoordinates(), players: rounds[0]["players"] });
-                    console.log(new Date().getSeconds() + new Date().getMinutes() * 60 - startS - startM * 60)
+                    io.sockets.in(shot.idRound).emit('round', { coordinates: generateCoordinates(), players: rounds[findRound(shot.idRound, rounds)]["players"] });
+                    console.log(Date.now() - start)
                 } else {
-                    io.sockets.in(id).emit('end');
-                    rounds = [];
-                    id = "";
+                    io.sockets.in(shot.idRound).emit('end');
+                    rounds.splice(findRound(shot.idRound, rounds), 1);
                 }
             }, 50);
         }
     })
 
+    socket.on('leaving', function(shot) {
+        console.log("Player leaving");
+        io.sockets.in(shot.idRound).emit('abort');
+        rounds.splice(findRound(shot.idRound, rounds), 1)
+    })
 
 });
 

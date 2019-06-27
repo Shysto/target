@@ -1,5 +1,5 @@
 function generateCoordinates() {
-    return [Math.floor(Math.random() * 90 + 5), Math.floor(Math.random() * 90 + 5)]
+    return [Math.floor(Math.random() * 100), Math.floor(Math.random() * 100)]
 }
 
 
@@ -27,10 +27,37 @@ function addScore(user, users) {
     })
 }
 
+function isPresent(user, round) {
+    var test = false;
+    round.forEach(function(game) {
+        game.players.forEach(function(player) {
+            if (user == player.login) {
+                test = true;
+            }
+        })
+
+    })
+    return test;
+}
+
+function findRound(idRound, rounds) {
+    var found = false;
+    var i = 0;
+    while (i < rounds.length && !found) {
+        if (rounds[i].idRound == idRound) {
+            found = true;
+        }
+        i = i + 1;
+    }
+    return i - 1;
+}
+
 
 
 module.exports = {
     generateCoordinates,
     uniqueid,
-    addScore
+    addScore,
+    isPresent,
+    findRound
 }
