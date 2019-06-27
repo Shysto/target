@@ -216,8 +216,6 @@ function toFree(log) {
                 console.log(err);
             }
         }
->>>>>>> develop
-
     );
 }
 
