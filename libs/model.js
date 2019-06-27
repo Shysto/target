@@ -3,8 +3,6 @@ const DISPLAY_MAX_MESSAGE = 4;
 const { connection } = require('../config.js');
 const LocalStrategy = require('passport-local').Strategy;
 const messages = null;
-const blacklisted = { user: [] };
-const notBlacklisted = { user: [] };
 
 // Here we define the behavior to adopt when we receive the information from the connection interface
 const passportLocal = new LocalStrategy(function (username, password, done) {
@@ -260,6 +258,8 @@ function ensureAdmin(req, res, next) {
 }
 
 function showAdministrationPage(req, res) {
+    const blacklisted = { user: [] };
+    const notBlacklisted = { user: [] };
     connection.query(
         "SELECT login FROM users WHERE isBlacklisted = 0",
         function (err, results, fields) {
