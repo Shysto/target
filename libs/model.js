@@ -28,29 +28,39 @@ const passportLocal = new LocalStrategy(function(username, password, done) {
             }
         }
     );
-
 });
 
 
 // Creation of a new user
-function createUser(log, pass) {
-    const login = "'" + log + "'";
-    const password = "'" + pass + "'";
+function createUser(log, pass, req, res){
     connection.query(
-        "INSERT INTO users (login,password,isAdmin,isBlacklisted,highscore) VALUES (" + login + ',' + password + ',' + '0' + ',' + '0' + ',' + '0' + ')',
-        function(err, results, fields) {
-            if (err == null) {
-                console.log("User added");
-            } else {
-                console.log(err);
+        "SELECT * FROM users WHERE login = ?", [log], function(err, results, fields){
+            if ((results != "undefined") && !(results.length)) {
+                connection.query(
+                    "INSERT INTO users (login, password, isAdmin, isBlacklisted, highscore) VALUES (?, ?, 0, 0, 0)", [log, pass],
+                    function(err, results, fields) {
+                        if (err == null){
+                            console.log("User added");
+                            req.flash('success_msg', 'You are registered and can now log in.');
+                            res.redirect('/users/login');
+                        }
+                        else{
+                            console.log(err);
+                        }
+                    }
+                );
+            }
+            else{
+                console.log("This username is already taken");
+                req.flash('error_msg', 'This user already exists.');
+                res.redirect('/users/register');
             }
         }
     );
-
 }
 
 // High Score updating if the new score is better than the score previously entered
-function updateHighscore(user, hs) {
+function updateHighscore(user, hs){
     connection.query(
         "UPDATE users SET highscore = ? WHERE login = ? AND highscore < ?", [hs, user, hs],
         function(err, results, fields) {
@@ -66,22 +76,16 @@ function updateHighscore(user, hs) {
 
 // Display the DISPLAY_MAX logins the associated highscores ordered by descending order
 function showHighscore(req, res) {
-    connection.query(
-        "SELECT login,highscore FROM users ORDER BY highscore DESC LIMIT " + DISPLAY_MAX_HIGHSCORE,
-        function(err, results, fields) {
-            if (results.length) {
-                const highscores = { user: [] };
-                for (var i = 0; i < DISPLAY_MAX_HIGHSCORE; i++) {
-                    highscores.user.push({ "name": results[i].login, "highScore": results[i].highscore, "numero": i + 1 }); // we transmit to the view the nickname and the score
-                }
-                console.log(results);
-                console.log(highscores);
-                res.render('highscores', highscores);
-            } else {
-                console.log(err);
-            }
+  connection.query(
+    "SELECT login,highscore FROM users ORDER BY highscore DESC LIMIT ?", [DISPLAY_MAX_HIGHSCORE],
+    function (err, results, fields) {
+      if (results.length) {
+        const highscores = { user: [] };
+        for (var i = 0; i < DISPLAY_MAX_HIGHSCORE; i++) {
+          highscores.user.push({ "name": results[i].login, "highScore": results[i].highscore, "numero": i + 1 }); // we transmit to the view the nickname and the score
         }
-    );
+      }
+    });
 }
 
 // Display the DISPLAY_MAX_MESSAGE the associated last messages
@@ -112,32 +116,28 @@ function displayChat(req, res) {
 // The username and user score provided here are saved in the open session.
 // The nickname will be used to retrieve all the user's information via the deserializeUser function
 function saveData(passport) {
-    passport.serializeUser(function(user, done) {
-        done(null, {
-            "login": user.login,
-            "highScore": user.highScore
-        }); // login is stored in a cookie
-    });
+  passport.serializeUser(function (user, done) {
+    done(null, {
+      "login": user.login,
+      "highScore": user.highScore
+    }); // login is stored in a cookie
+  });
 
-    passport.deserializeUser(function(username, done) {
-        const login = "'" + username.login + "'";
-        connection.query(
-            "SELECT * FROM `users` WHERE `login` =" + login,
-            function(err, results, fields) {
-                return done(err, results[0]);
-            }
-        );
-    });
+  passport.deserializeUser(function (username, done) {
+    connection.query(
+      "SELECT * FROM users WHERE login = ?", [username.login],
+      function (err, results, fields) {
+        return done(err, results[0]);
+      }
+    );
+  });
 };
 
 
-
 // Insert a new message in the chat
-function addChat(login, ms) {
-    const loginAuteur = "'" + login + "'";
-    const message = "'" + ms + "'";
+function addChat(login, ms){
     connection.query(
-        "INSERT INTO chat (loginAuteur,message) VALUES (" + loginAuteur + ',' + message + ')',
+        "INSERT INTO chat (loginAuteur,message) VALUES (?, ?)", [login, ms],
         function(err, results, fields) {
             if (err == null) {
                 console.log("Message added");
@@ -152,10 +152,9 @@ function addChat(login, ms) {
 // To know if someone is blacklisted
 // Return a boolean : true if the user is blacklisted, false otherwise
 // Return nothing if the user doesn't exist
-function isBlacklisted(user) {
-    const username = "'" + user + "'";
+function isBlacklisted(user){
     connection.query(
-        "SELECT isBlacklisted FROM users WHERE login = " + username,
+        "SELECT isBlacklisted FROM users WHERE login = ?", [user],
         function(err, results, fields) {
             if (err == null) {
                 console.log("Trying to know if the user is blacklisted");
@@ -177,10 +176,9 @@ function isBlacklisted(user) {
 
 // To Blacklist someone
 // To be used by an admin
-function toBlacklist(log) {
-    const login = "'" + log + "'";
+function toBlacklist(log){
     connection.query(
-        "UPDATE users SET isBlacklisted = 1 WHERE login =" + login,
+        "UPDATE users SET isBlacklisted = 1 WHERE login = ?", [log],
         function(err, results, fields) {
             if (err == null) {
                 console.log("User blacklisted");
@@ -194,10 +192,9 @@ function toBlacklist(log) {
 
 // To unBlacklist someone
 // To be used by an admin
-function toFree(log) {
-    const login = "'" + log + "'";
+function toFree(log){
     connection.query(
-        "UPDATE users SET isBlacklisted = 0 WHERE login =" + login,
+        "UPDATE users SET isBlacklisted = 0 WHERE login = ?", [log],
         function(err, results, fields) {
             if (err == null) {
                 console.log("User can now use the chat");
@@ -212,10 +209,9 @@ function toFree(log) {
 // Check if the user is admin
 // Return a boolean : true if the user is admin, false otherwise
 // Return nothing if the user doesn't exist
-function isAdmin(log) {
-    const login = "'" + log + "'";
+function isAdmin(log){
     connection.query(
-        "SELECT isAdmin FROM users WHERE login = " + login,
+        "SELECT isAdmin FROM users WHERE login = ?", [log],
         function(err, results, fields) {
             if (err == null) {
                 console.log("Trying to know if the user is admin");
@@ -354,5 +350,4 @@ module.exports = {
     saveData,
     passportLocal,
     updateHighscore
-
 };

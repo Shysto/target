@@ -25,11 +25,12 @@ const { generateCoordinates, uniqueid, isPresent, findRound, updateHighscoreAll 
 
 // Road's declaration
 
-const routes = require('./routes/index'); //chemin vers la route index
-const users = require('./routes/users'); //chemin vers la route users
-const game = require('./routes/game'); //chemin vers la route game
-const highscores = require('./routes/highscores'); //chemin vers la route game
+const routes = require('./routes/index'); 
+const users = require('./routes/users'); 
+const game = require('./routes/game'); 
+const highscores = require('./routes/highscores');
 const chat = require('./routes/chat');
+const help = require('./routes/help');
 let rounds = [];
 let id;
 
@@ -93,13 +94,14 @@ app.use('/users', users); // 'localhost:3000/users' redirect to ./routes/users
 app.use('/game', game); // 'localhost:3000/game' redirect to ./routes/users
 app.use('/highscores', highscores); // 'localhost:3000/highscores' redirect to ./routes/highscores
 app.use('/chat', chat); // 'localhost:3000/chat' redirect to ./routes/chat
+app.use('/help', help); // 'localhost:3000/help' redirect to ./routes/help
 
 // Use of socket.io
 io.on('connection', function(socket) {
     console.log('A user is connected');
     let start = Date.now();
     socket.on('setUsername', function(data) {
-        console.log('user received');
+        console.log('User received');
         console.log(`${data}`);
         if (rounds.length == 0) {
             id = uniqueid();
@@ -145,7 +147,7 @@ io.on('connection', function(socket) {
                 if (Date.now() - start < 15 * 1000) {
                     rounds[findRound(shot.idRound, rounds)]["players"].forEach(function(elt) {
                         if (elt.login == shot.user) {
-                            console.log(elt.login + " de score : " + elt.score)
+                            onsole.log("Score de " + elt.login + " : " + elt.score);
                             elt.score = elt.score + 1;
                         }
                     })
