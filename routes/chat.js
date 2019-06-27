@@ -16,7 +16,7 @@ router.post('/', function (req, res) {
     console.log(message);
 
 // Input validation
-    req.checkBody('message', 'message is required').notEmpty(); // report if message is not provided
+    req.checkBody('message', 'Message is required').notEmpty(); // report if message is not provided
 
     const errors = req.validationErrors();
 

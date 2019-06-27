@@ -3,28 +3,31 @@
 
 <head>
     <title>Socket.IO chat</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
 
-        body {
-            font: 13px Helvetica, Arial;
-        }
-
-    </style>
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Audiowide"/>
+    <link rel="stylesheet" type="text/css" href="/css/highscores.css"/>
 </head>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script src="/socket.io/socket.io.js"></script>
-
 
 <body>
-<h1>Classement</h1>
-{{#each user}}
-<p>{{numero}} - {{name}} {{highScore}}</p>
-{{/each}}
+
+<div id="container">
+    <h1>Ranking</h1>
+
+    <div id="user-box">
+        {{#each user}}
+            <p class="user">{{numero}} - {{name}} : {{highScore}}</p>
+        {{/each}}
+    </div>
+
+    <div>
+        <input type="text" id="inpLogin" class="form-control" name="pseudo" placeholder="Pseudo">
+        <input type="button" id="btnSearch" class="btn btn-default" name="search" value="Search a player">
+    </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script type="text/javascript" src="/js/highscores.js"></script>
 </body>
 
 </html>

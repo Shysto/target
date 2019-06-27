@@ -17,4 +17,4 @@ function isLoggedIn(req, res, next) {
     }
 }
 
-module.exports = { ensureAuthenticated, isLoggedIn };
+module.exports = { ensureAuthenticated, isLoggedIn};
