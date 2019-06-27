@@ -1,8 +1,8 @@
 const DISPLAY_MAX_HIGHSCORE = 5;
-const DISPLAY_MAX_MESSAGE = 4;
+const DISPLAY_MAX_MESSAGE = 6;
 const { connection } = require('../config.js');
 const LocalStrategy = require('passport-local').Strategy;
-const messages = null;
+
 
 // Here we define the behavior to adopt when we receive the information from the connection interface
 const passportLocal = new LocalStrategy(function (username, password, done) {
@@ -21,7 +21,7 @@ const passportLocal = new LocalStrategy(function (username, password, done) {
 
       }
       else {
-        return done(null, false, { message: 'Identifiants incorrects !' });
+        return done(null, false, { message: 'Incorrect identifiers !' });
       }
     }
   );
@@ -93,6 +93,32 @@ function showHighscore(req, res) {
   );
 }
 
+// Display the DISPLAY_MAX_MESSAGE the associated last messages
+function displayChat(req, res){
+    connection.query(
+        // Tried : "SELECT loginAuteur, message FROM (SELECT loginAuteur, message FROM chat ORDER BY idMessage DESC LIMIT" + DISPLAY_MAX_MESSAGE + ') ORDER BY idMessage ASC',
+        "SELECT loginAuteur, message FROM chat ORDER BY idMessage DESC LIMIT " + DISPLAY_MAX_MESSAGE,
+        function(err, results, fields) {
+            if (results.length) {
+              console.log(results.length);
+                const messages = { user: [] };
+                // for (var i = 0; i < DISPLAY_MAX_MESSAGE; i++) {
+                for (var i = results.length - 1; i >= 0; i--) {
+                    messages.user.push({ "name": results[i].loginAuteur, "message": results[i].message}); // we transmit to the view the nickname and the message
+                }
+                console.log(results);
+                console.log(messages);
+                res.render('chat', messages);
+            }
+            else{
+                console.log(err);
+            }
+        }
+
+    );
+}
+
+
 // The username and user score provided here are saved in the open session.
 // The nickname will be used to retrieve all the user's information via the deserializeUser function
 function saveData(passport) {
@@ -113,24 +139,6 @@ function saveData(passport) {
   });
 };
 
-// Collect the 6 last messages from the chat to display it
-// Messages are available using the global variable messages
-function displayChat(){
-    connection.query(
-        "SELECT loginAuteur, message FROM chat ORDER BY idMessage DESC LIMIT ?", [DISPLAY_MAX_MESSAGE],
-        function(err, results, fields) {
-            if (err == null){
-                console.log("Chat loaded");
-                // Messages are loaded in ascending order of arrival, for index between 0 and 5
-                messages = results;
-            }
-            else{
-                console.log(err);
-            }
-        }
-
-    );
-}
 
 // Insert a new message in the chat
 function addChat(login, ms){

@@ -2,8 +2,10 @@
 <html>
 
 <head>
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Audiowide"/>
     <title>Socket.IO chat</title>
     <style>
+
         * {
             margin: 0;
             padding: 0;
@@ -11,16 +13,28 @@
         }
 
         body {
-            font: 13px Helvetica, Arial;
+            font: 13px Audiowide;
+            background-color:#1A1A1A;
+            color:white;
         }
 
         #target {
-            background-color: blue;
-            width: 30px;
-            height: 30px;
+            cursor:pointer;
             position: absolute;
-            top: 0;
-            left: 0;
+            top: calc(50% - 150px);
+            left: calc(50% - 150px);
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            box-shadow:
+                    inset 0 0 50px #000000,
+                    0 0 1px #fff,
+        }
+        .displayScore{
+            font-size: 50px;
+        }
+        #startButton{
+            text-transform: uppercase;
         }
     </style>
 </head>
@@ -28,21 +42,86 @@
 <script src="/socket.io/socket.io.js"></script>
 <script>
     $(document).ready(function() {
-        const socket = io();
-        socket.on('coordonnee', function(coordonnee) {
-            console.log(coordonnee);
-            $('#target').css('transform', `translate(${coordonnee[0]}vw,${coordonnee[1]}vh)`);
+        let players = [];
+        let idRound;
+        let username;
+        let socket=io();
+        $("#startButton").on({
+            click: function(){
+                $("#startButton").hide();
+
+        $('#target').hide();
+        username = "{{username}}";
+        console.log(username);
+        socket.emit('setUsername',username);
+
+        socket.on('userTaken', function(msg){
+            $("#error").html(msg);
+        })
+        
+        socket.on('round', function(msg) {
+            var randomColor = Math.floor(Math.random()*16777215).toString(16);
+            console.log(msg["coordinates"]);
+            $('#target').css('transform', `translate(${msg["coordinates"][0]}vw,${msg["coordinates"][1]}vh)`);
+            $('#target').css('background-color',"#"+randomColor);
+           // $('#target').css('box-shadow'," inset 0 0 50px " + "#" +randomColor +"," + " 0 0 1px #" + randomColor +","
+                           //   + "10px 0 80px #"+randomColor+";");
+            players = msg["players"];
+            var i;
+            $('li').remove();
+            for (i = 0; i < players.length; i++) {
+                const unLi = $("<li></li>");
+                unLi.html(`${players[i]["login"]} : ${players[i]["score"]}`);
+                console.log("Score displayed");
+                unLi.addClass("displayScore");
+                $("#score").append(unLi);
+            }
         });
+        socket.on('idRound', function(id){
+            idRound = id;
+            console.log(idRound);
+        })
+        socket.on("Start", function(msg){
+            console.log("START");
+            $('#target').show();
+            socket.emit('GO',{"idRound": idRound, "user": username});
+        })
         $('#target').on({
             click: function() {
-                socket.emit('cible', 'touchee');
+                socket.emit('target', {"idRound": idRound, "user": username});
             }
         })
+
+        }
+        })
+        socket.on('end', function(msg){
+            console.log("END");
+            $('#target').hide();
+            $("#startButton").show();
+            socket.disconnect();
+        });
+            socket.on('abort', function(msg){
+            console.log("ABORT!");
+            $('#target').hide();
+            $("#startButton").show();
+            socket.disconnect();
+            socket = io();
+        });
+        window.addEventListener('beforeunload', function (e) {
+            socket.emit('leaving', {"idRound": idRound, "user": username});
+            console.log("Unload");
+        });
     });
 </script>
 
 <body>
 <p id="target"></p>
+<p id="error"></p>
+<ul id="score"></lu>
+<button id="startButton">Let's start!</button>
+    <br/>
+    <br/>
+    <br/>
 </body>
 
 </html>
