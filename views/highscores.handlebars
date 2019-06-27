@@ -63,11 +63,12 @@
             margin-bottom: 10px;
         }
 
+        a {
+            display: block;
+        }
+
     </style>
 </head>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script src="/socket.io/socket.io.js"></script>
-
 
 <body>
 
@@ -81,11 +82,15 @@
     </div>
 
     <div>
-        <input type="text" class="form-control" name="pseudo" placeholder="Pseudo">
-        <input type="button" class="btn btn-default" name="search" value="Search a player">
+        <input type="text" id="inpLogin" class="form-control" name="pseudo" placeholder="Pseudo">
+        <input type="button" id="btnSearch" class="btn btn-default" name="search" value="Search a player">
+        <a href="/users"> <input type="button" class="btn btn-default" value="Go back"> </a>
     </div>
 </div>
 
+<script src="/socket.io/socket.io.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script type="text/javascript" src="/js/highscores.js"></script>
 </body>
 
 </html>
