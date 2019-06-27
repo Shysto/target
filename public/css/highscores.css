@@ -1,0 +1,55 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font: 13px Helvetica, Arial;
+}
+
+#container {
+    text-align: center;
+    text-transform: uppercase;
+    /*font-family: 'Press Start 2P', cursive;*/
+    font-family: "Audiowide", cursive;
+    background-color:#1A1A1A;
+}
+
+h1 {
+    font-size: 56px;
+    color: #e6ff2f;
+    text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em #ffea3f, 0 0 0.5em #faff1c, 0 0 0.1em #fffe27, 0 10px 3px #000;
+}
+
+#user-box {
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+.user {
+    font-size: 20px;
+    color:white;
+    text-shadow:
+            0 0 5px #fff,
+            0 0 10px #fff,
+            0 0 20px #fff,
+            0 0 40px #ffffff,
+            0 0 80px #ffffff,
+            0 0 90px #ffffff,
+            0 0 100px #0ff,
+            0 0 150px #0ff;
+}
+
+div input[type=text] {
+    width: 200px;
+    margin: 0 auto 20px auto;
+}
+
+div input[type=button] {
+    margin-bottom: 10px;
+}
+
+a {
+    display: block;
+}
