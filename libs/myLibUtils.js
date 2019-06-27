@@ -12,7 +12,7 @@ function isLoggedIn(req, res, next) {
     if (!req.isAuthenticated()) {
         next();
     } else {
-        req.flash('error_msg', 'Vous êtes déjà connecté');
+        req.flash('error_msg', 'You are already logged in');
         res.redirect('/users'); //Redirection to view index if user is already login 
     }
 }
