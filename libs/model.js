@@ -105,6 +105,28 @@ function displayChat(req, res) {
     );
 }
 
+function showScorePlayer(req, res) {
+    const login = req.params.login;
+    const highscores = { user: [] };
+    connection.query(
+        "SELECT login,highscore FROM users WHERE users.login='"+login+"' ORDER BY highscore DESC",
+        function (err, results, fields) {
+            if (results) {
+                if (results.length) {
+                    for (var i = 0; i < results.length; i++) {
+                        highscores.user.push({ "name": results[i].login, "highScore": results[i].highscore, "numero": i + 1 }); //we transmit to the view the nickname and the score
+                    }
+                    console.log(results);
+                    console.log("highscores = "+highscores);
+                    res.render('highscores', highscores);
+                }
+                else {
+                    res.render('highscores', highscores);
+                }
+            }
+        }
+    );
+}
 
 // The username and user score provided here are saved in the open session.
 // The nickname will be used to retrieve all the user's information via the deserializeUser function
@@ -194,6 +216,7 @@ function toFree(log) {
                 console.log(err);
             }
         }
+>>>>>>> develop
 
     );
 }
@@ -295,6 +318,7 @@ module.exports = {
     toFree,
     isAdmin,
     showHighscore,
+    showScorePlayer,
     saveData,
     passportLocal,
     ensureAdmin,
