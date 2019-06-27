@@ -2,24 +2,23 @@
 <html>
 
 <head>
-    <title>Socket.IO chat</title>
-
+    <title>HighScores</title>
     <link rel="stylesheet" type="text/css" href="/css/highscores.css"/>
     <style>
         .head b{
             color: #e6ff2f;
-            text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em #ffea3f, 0 0 0.5em #faff1c, 0 0 0.1em #fffe27, 0 10px 3px #000;
+            text-shadow: 0 -40px 100px, 0 0 2px, 0 0 0.2em #ffea3f, 0 0 0.2em;
         }
     </style>
 </head>
 
 <body>
 
-<div id="container">
-    <div class="head">
-        <b>R<span>an</span>kin<span>g</b>
-    </div>
+<div class="head">
+    <b>High<span>sc</span>ore<span>s</span></b>
+</div>
 
+<div id="container">
     <div id="user-box">
         {{#each user}}
             <p class="user">{{numero}} - {{name}} : {{highScore}}</p>
