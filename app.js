@@ -30,6 +30,7 @@ const users = require('./routes/users');
 const game = require('./routes/game');
 const highscores = require('./routes/highscores');
 const chat = require('./routes/chat');
+const messages = require('./routes/messages');
 const help = require('./routes/help');
 let rounds = [];
 let id;
@@ -94,6 +95,7 @@ app.use('/', routes); // 'localhost:3000' redirect to ./routes/index
 app.use('/users', users); // 'localhost:3000/users' redirect to ./routes/users
 app.use('/game', game); // 'localhost:3000/game' redirect to ./routes/users
 app.use('/highscores', highscores); // 'localhost:3000/highscores' redirect to ./routes/highscores
+app.use('/messages', messages); // 'localhost:3000/messages' redirect to ./routes/messages
 app.use('/chat', chat); // 'localhost:3000/chat' redirect to ./routes/chat
 app.use('/help', help); // 'localhost:3000/help' redirect to ./routes/help
 
@@ -124,6 +126,7 @@ io.on('connection', function(socket) {
                 io.sockets.in(shot.idRound).emit('end');
                 updateHighscoreAll(rounds[findRound(shot.idRound, rounds)]);
                 rounds.splice(findRound(shot.idRound, rounds), 1);
+                console.log('End of round');
             }
         }
     })

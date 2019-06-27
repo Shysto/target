@@ -27,7 +27,7 @@
         $("#startButton").on({
             click: function(){
                 $("#startButton").hide();
-        let socket=io();
+        socket=io();
         $('#target').hide();
         username = "{{username}}";
         console.log(username);
@@ -69,16 +69,13 @@
                 socket.emit('target', {"idRound": idRound, "user": username});
             }
         })
-
-        }
-        })
         socket.on('end', function(msg){
             console.log("END");
             $('#target').hide();
             $("#startButton").show();
             socket.disconnect();
         });
-            socket.on('abort', function(msg){
+        socket.on('abort', function(msg){
             console.log("ABORT!");
             $('#target').hide();
             $("#startButton").show();
@@ -89,6 +86,8 @@
             socket.emit('leaving', {"idRound": idRound, "user": username});
             console.log("Unload");
         });
+        }
+        })
     });
 </script>
 

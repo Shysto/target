@@ -5,6 +5,7 @@ body{
     background-color:#1A1A1A;
     text-transform: uppercase;
     width:100%;
+    color:whitesmoke;
 }
 
 .btn {
@@ -179,17 +180,6 @@ body{
 }
 
 
-/*REEEEEEEEEEESPONSIVE*/
-
-@media (max-width: 900px) {
-    #TARGET {
-        top:5%;
-    }
-    p {
-        font-size: 3.5em;
-    }
-}
-
 footer{
     color:whitesmoke;
 }
@@ -200,4 +190,31 @@ footer p {
 
 #goHome{
     font-size: 20px;
+}
+
+
+/*CHAT*/
+
+#newMessage{
+    margin-left: 39%;
+}
+
+#submit{
+    margin-top:3%;
+    margin-left:10%;
+}
+
+/*RESPONSIVE*/
+
+@media (max-width: 900px) {
+    .btn{
+        font-size: 10px;
+        width:40%;
+    }
+    #TARGET {
+        top:5%;
+    }
+    p {
+        font-size: 3.5em;
+    }
 }
