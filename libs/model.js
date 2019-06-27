@@ -1,5 +1,8 @@
+const DISPLAY_MAX_HIGHSCORE = 5;
+const DISPLAY_MAX_MESSAGE = 6;
 const { connection } = require('../config.js');
 const LocalStrategy = require('passport-local').Strategy;
+
 
 // Here we define the behavior to adopt when we receive the information from the connection interface
 const passportLocal = new LocalStrategy(function(username, password, done) {
@@ -27,6 +30,7 @@ const passportLocal = new LocalStrategy(function(username, password, done) {
     );
 
 });
+
 
 // Creation of a new user
 function createUser(log, pass) {
@@ -60,6 +64,7 @@ function updateHighscore(user, hs) {
     );
 }
 
+// Display the DISPLAY_MAX logins the associated highscores ordered by descending order
 function showHighscore(req, res) {
     connection.query(
         "SELECT login,highscore FROM users ORDER BY highscore DESC LIMIT " + DISPLAY_MAX_HIGHSCORE,
@@ -230,6 +235,111 @@ function isAdmin(log) {
     );
 }
 
+
+
+
+// Insert a new message in the chat
+function addChat(login, ms) {
+    const loginAuteur = "'" + login + "'";
+    const message = "'" + ms + "'";
+    connection.query(
+        "INSERT INTO chat (loginAuteur,message) VALUES (" + loginAuteur + ',' + message + ')',
+        function(err, results, fields) {
+            if (err == null) {
+                console.log("Message added");
+            } else {
+                console.log(err);
+            }
+        }
+
+    );
+}
+
+// To know if someone is blacklisted
+// Return a boolean : true if the user is blacklisted, false otherwise
+// Return nothing if the user doesn't exist
+function isBlacklisted(user) {
+    const username = "'" + user + "'";
+    connection.query(
+        "SELECT isBlacklisted FROM users WHERE login = " + username,
+        function(err, results, fields) {
+            if (err == null) {
+                console.log("Trying to know if the user is blacklisted");
+                if (results[0].isBlacklisted == 0) {
+                    console.log("False");
+                    return false;
+                }
+                if (results[0].isBlacklisted == 1) {
+                    console.log("True");
+                    return true;
+                }
+            } else {
+                console.log(err);
+            }
+        }
+
+    );
+}
+
+// To Blacklist someone
+// To be used by an admin
+function toBlacklist(log) {
+    const login = "'" + log + "'";
+    connection.query(
+        "UPDATE users SET isBlacklisted = 1 WHERE login =" + login,
+        function(err, results, fields) {
+            if (err == null) {
+                console.log("User blacklisted");
+            } else {
+                console.log(err);
+            }
+        }
+
+    );
+}
+
+// To unBlacklist someone
+// To be used by an admin
+function toFree(log) {
+    const login = "'" + log + "'";
+    connection.query(
+        "UPDATE users SET isBlacklisted = 0 WHERE login =" + login,
+        function(err, results, fields) {
+            if (err == null) {
+                console.log("User can now use the chat");
+            } else {
+                console.log(err);
+            }
+        }
+
+    );
+}
+
+// Check if the user is admin
+// Return a boolean : true if the user is admin, false otherwise
+// Return nothing if the user doesn't exist
+function isAdmin(log) {
+    const login = "'" + log + "'";
+    connection.query(
+        "SELECT isAdmin FROM users WHERE login = " + login,
+        function(err, results, fields) {
+            if (err == null) {
+                console.log("Trying to know if the user is admin");
+                if (results[0].isAdmin == 0) {
+                    console.log("False");
+                    return false;
+                }
+                if (results[0].isAdmin == 1) {
+                    console.log("True");
+                    return true;
+                }
+            } else {
+                console.log(err);
+            }
+        }
+
+    );
+}
 
 module.exports = {
     createUser,
