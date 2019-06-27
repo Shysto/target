@@ -30,7 +30,7 @@ function createUser(log, pass, req, res) {
     connection.query(
         "SELECT * FROM users WHERE login = ?", [log],
         function(err, results, fields) {
-            if ((results != "undefined") && !(results.length)) {
+            if ((results != undefined) && !(results.length)) {
                 connection.query(
                     "INSERT INTO users (login, password, isAdmin, isBlacklisted, highscore) VALUES (?, ?, 0, 0, 0)", [log, pass],
                     function(err, results, fields) {
