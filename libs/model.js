@@ -25,7 +25,7 @@ const passportLocal = new LocalStrategy(function (username, password, done) {
 
       }
       else {
-        return done(null, false, { message: 'Identifiants incorrects !' });
+        return done(null, false, { message: 'Incorrect identifiers !' });
       }
     }
   );
@@ -259,7 +259,6 @@ module.exports = {
     showHighscore,
     saveData,
     passportLocal
-
 };
 
 

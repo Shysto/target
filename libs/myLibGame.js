@@ -21,7 +21,7 @@ function uniqueid() {
 function addScore(user, users) {
     users.forEach(function(elt) {
         if (elt.login == user) {
-            console.log(elt.login + " de score : " + elt.score)
+            console.log("Score de " + elt.login + " : " + elt.score);
             elt.score = elt.score + 1;
         }
     })

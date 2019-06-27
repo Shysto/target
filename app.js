@@ -98,7 +98,7 @@ app.use('/chat', chat); // 'localhost:3000/chat' redirect to ./routes/chat
 io.on('connection', function(socket) {
     console.log('A user is connected');
     socket.on('setUsername', function(data) {
-        console.log('user received');
+        console.log('User received');
         console.log(`${data}`);
         if (rounds.length == 0) {
             id = uniqueid();
@@ -143,7 +143,7 @@ io.on('connection', function(socket) {
                 if (Date.now() - start < 90 * 1000) {
                     rounds[findRound(shot.idRound, rounds)]["players"].forEach(function(elt) {
                         if (elt.login == shot.user) {
-                            console.log(elt.login + " de score : " + elt.score)
+                            onsole.log("Score de " + elt.login + " : " + elt.score);
                             elt.score = elt.score + 1;
                         }
                     })
