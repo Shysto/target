@@ -67,9 +67,6 @@
                 socket.emit('target', {"idRound": idRound, "user": username});
             }
         })
-
-        }
-        })
         socket.on('end', function(msg){
             console.log("END");
             $('#target').hide();
