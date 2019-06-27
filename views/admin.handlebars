@@ -1,4 +1,105 @@
-<h2 class="page-header">Administration du site</h2>
-<p>Bienvenue </p>
-<p> {{username}} </p>
-<p>Vous pouvez blacklister les utilisateurs suivants :</p>
+<head>
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Audiowide" />
+    <style>
+        /*Target Logo*/
+        body {
+            font-family: "Audiowide";
+            background-color: #1A1A1A;
+        }
+
+        .logo {
+            text-align: center;
+            margin: auto;
+            position: relative;
+            text-transform: uppercase;
+            font-size: 56px;
+        }
+
+        .logo b {
+            color: #e6ff2f;
+            text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em #ffea3f, 0 0 0.5em #faff1c, 0 0 0.1em #fffe27, 0 10px 3px #000;
+        }
+
+        .logo b span {
+            animation: blink linear infinite 2s;
+        }
+
+        @keyframes blink {
+            78% {
+                color: inherit;
+                text-shadow: inherit;
+            }
+
+            80% {
+                text-shadow: none;
+            }
+
+            81% {
+                color: inherit;
+                text-shadow: inherit;
+            }
+
+            82% {
+                color: #333;
+                text-shadow: none;
+            }
+
+            83% {
+                color: inherit;
+                text-shadow: inherit;
+            }
+
+            92% {
+                color: #333;
+                text-shadow: none;
+            }
+
+            92.5% {
+                color: inherit;
+                text-shadow: inherit;
+            }
+        }
+
+        .glow {
+            color: white;
+            text-transform: uppercase;
+            text-shadow:
+                0 0 5px #fff,
+                0 0 10px #fff,
+                0 0 20px #fff,
+                0 0 40px #ffffff,
+                0 0 80px #ffffff,
+                0 0 90px #ffffff,
+                0 0 100px #0ff,
+                0 0 150px #0ff;
+        }
+
+        .back {
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="logo">
+        <b>Admi<span>in</span>istra<span>tion</b>
+    </div>
+
+    <p>Welcome {{username}}</p>
+    <p>You can blacklist the following people :</p>
+    {{#if nbl}}
+        {{#each nbl.user}}
+
+            <p>{{numero}} - {{name}}</p>
+        {{/each}}
+    {{/if}}
+
+    <p>You can unblacklist the following people :</p>
+    {{#if bl}}
+        {{#each bl.user}}
+            <p>{{numero}} - {{name}}</p>
+        {{/each}}
+    {{/if}}
+    <br />
+    <a class="btn btn-default back" href="/">Go Home</a>
+</body>

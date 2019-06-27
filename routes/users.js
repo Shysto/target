@@ -64,9 +64,7 @@ router.post('/login', passport.authenticate('local', { successRedirect: '/users'
 });
 
 //Call admin view if user is connected and is admin
-router.get('/admin', User.ensureAdmin, function(req,res){
-  res.render('admin', {username: req["user"].login});
-});
+router.get('/admin', User.ensureAdmin, User.showAdministrationPage);
 
 // Logout
 router.get('/logout', function(req, res) {
