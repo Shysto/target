@@ -2,6 +2,9 @@
 body {
   padding-top: 20px;
   padding-bottom: 20px;
+  font-family: "Audiowide", cursive;
+  background-color:#1A1A1A;
+  color: #fffcf9;
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
@@ -22,6 +25,8 @@ body {
   margin-top: 0;
   margin-bottom: 0;
   line-height: 40px;
+  color: #e6ff2f;
+  text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em #ffea3f, 0 0 0.5em #faff1c, 0 0 0.1em #fffe27, 0 10px 3px #000;
 }
 
 /* Custom page footer */
