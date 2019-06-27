@@ -3,15 +3,22 @@
     color:white;
     text-transform: uppercase;
     text-shadow:
-            0 0 5px #fff,
-            0 0 10px #fff,
-            0 0 20px #fff,
-            0 0 40px #ffffff,
-            0 0 80px #ffffff,
-            0 0 90px #ffffff,
-            0 0 100px #0ff,
-            0 0 150px #0ff;
+            0 0 10px #ffffff,
+            0 0 10px #ffffff,
+            0 0 1px #f9fdff,
+            0 0 1px #fbfde7;
 }
+
+.glow2{
+    color: #161616;
+    text-transform: uppercase;
+    text-shadow:
+            0 0 10px #121212,
+            0 0 10px #151515,
+            0 0 1px #090a0b,
+            0 0 1px #0a0b07;
+}
+
 
 /*Text blinking*/
 .head {
@@ -86,7 +93,7 @@ h2{
 }
 
 p:nth-child(1) a {
-    color: #fff;
+    color: #befffc;
 }
 
 p:nth-child(2) a {
