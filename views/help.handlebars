@@ -1,0 +1,111 @@
+<head>
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Audiowide" />
+    <style>
+        /*Target Logo*/
+
+        body {
+            font-family: "Audiowide";
+            background-color: #1A1A1A;
+        }
+
+        .logo {
+            text-align: center;
+
+            margin: auto;
+            position: relative;
+            text-transform: uppercase;
+            font-size: 56px;
+        }
+
+        .logo b {
+            color: #e6ff2f;
+            text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em #ffea3f, 0 0 0.5em #faff1c, 0 0 0.1em #fffe27, 0 10px 3px #000;
+        }
+
+        .logo b span {
+            animation: blink linear infinite 2s;
+        }
+
+        @keyframes blink {
+            78% {
+                color: inherit;
+                text-shadow: inherit;
+            }
+
+            80% {
+
+                text-shadow: none;
+            }
+
+            81% {
+                color: inherit;
+                text-shadow: inherit;
+            }
+
+            82% {
+                color: #333;
+                text-shadow: none;
+            }
+
+            83% {
+                color: inherit;
+                text-shadow: inherit;
+            }
+
+            92% {
+                color: #333;
+                text-shadow: none;
+            }
+
+            92.5% {
+                color: inherit;
+                text-shadow: inherit;
+            }
+        }
+
+        .glow {
+            color: white;
+            text-transform: uppercase;
+            text-shadow:
+                0 0 5px #fff,
+                0 0 10px #fff,
+                0 0 20px #fff,
+                0 0 40px #ffffff,
+                0 0 80px #ffffff,
+                0 0 90px #ffffff,
+                0 0 100px #0ff,
+                0 0 150px #0ff;
+        }
+
+        .back {
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="logo">
+        <b>H<span>e</span>l<span>p</b>
+    </div>
+
+    <h1> Welcome to Target !</h1>
+
+    <p>Target is an online multiplayer shooting game, created by five Centrale Lille students as part of the course Web 2.0
+        Technologies.</p>
+
+    <h2>What is the purpose of the game?</h2>
+    <p>Be the fastest! Once all the players are connected, destroy the targets before your friends, by clicking on them
+        with your mouse! <br />
+        Each target is worth 1 point. At the end of the time limit (90s), the player with the most points wins!</p>
+
+    <h2>How to play?</h2>
+    <p>First of all, you must have an account. If this is not the case, click <a href="/users/register">here</a> to
+        register.
+        Otherwise, connect directly <a href="/users/login">here</a>, then click on <a href="/game">Play</a> to start a
+        game! <br />
+        The <a href="/highscores">Highscore page</a> allows you to view your best score, as well as that of your
+        friends!</p>
+
+    <br />
+    <a class="btn btn-default back" href="/">Go Home</a>
+</body>
