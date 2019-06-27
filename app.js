@@ -147,7 +147,7 @@ io.on('connection', function(socket) {
                 if (Date.now() - start < 15 * 1000) {
                     rounds[findRound(shot.idRound, rounds)]["players"].forEach(function(elt) {
                         if (elt.login == shot.user) {
-                            onsole.log("Score de " + elt.login + " : " + elt.score);
+                            console.log("Score de " + elt.login + " : " + elt.score);
                             elt.score = elt.score + 1;
                         }
                     })
