@@ -84,6 +84,7 @@ function showHighscore(req, res) {
         for (var i = 0; i < DISPLAY_MAX_HIGHSCORE; i++) {
           highscores.user.push({ "name": results[i].login, "highScore": results[i].highscore, "numero": i + 1 }); // we transmit to the view the nickname and the score
         }
+          res.render('highscores',highscores);
       }
     });
 }
