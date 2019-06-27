@@ -194,6 +194,10 @@ footer{
     color:whitesmoke;
 }
 
-#footer{
+footer p {
+    font-size: 15px;
+}
+
+#goHome{
     font-size: 20px;
 }
