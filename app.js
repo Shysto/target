@@ -30,7 +30,6 @@ const users = require('./routes/users'); //chemin vers la route users
 const game = require('./routes/game'); //chemin vers la route game
 const highscores = require('./routes/highscores'); //chemin vers la route game
 const chat = require('./routes/chat');
-
 const messages = require('./routes/messages');
 
 let rounds = [];

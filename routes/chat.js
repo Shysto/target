@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { ensureAuthenticated } = require('../libs/myLibUtils.js');
-const { displayChat, addChat } = require('../libs/model.js');
+const { addChat } = require('../libs/model.js');
 
 // Show the sixth last messages if the user is logged in
 router.get('/', ensureAuthenticated, function(req,res){
@@ -13,7 +13,7 @@ module.exports = router;
 // Register a new message
 router.post('/', function (req, res) {
     const message = req.body.message;
-    //console.log(message);
+    console.log(message);
 
 // Input validation
     req.checkBody('message', 'message is required').notEmpty(); // report if message is not provided

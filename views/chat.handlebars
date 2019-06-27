@@ -80,13 +80,28 @@
                     console.log("erreur");
                 },
                 success: function(oRep){
-                  $("#messages").html(oRep);
+                    var messages =  $("#messages");
+                    messages.html(oRep);
                 }
             });
 
         }
     //load();
-        window.setInterval(load,1);
+        $.ajax({
+            type: "GET",
+            url: "/messages",
+            error: function(){
+                console.log("erreur");
+            },
+            success: function(oRep){
+                var messages =  $("#messages");
+                messages.hide();
+                messages.html(oRep);
+                messages.show("slow");
+            }
+        });
+
+        window.setInterval(load,3000);
 
 
     </script>
