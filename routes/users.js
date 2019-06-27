@@ -33,15 +33,13 @@ router.post('/register', function(req, res) {
 
     const errors = req.validationErrors();
 
-    if (errors) {
-        res.render('register', {
-            errors: errors
-        });
-    } else {
-        User.createUser(username, password); // Creation of the new user if all goes well
-        req.flash('success_msg', 'You are registered and can now log in.');
-        res.redirect('/users/login');
-    }
+  if (errors) {
+    res.render('register', {
+      errors: errors
+    });
+  } else {
+    User.createUser(username, password, req, res);
+  }
 });
 
 passport.use(User.passportLocal);
