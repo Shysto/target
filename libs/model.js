@@ -13,7 +13,7 @@ const passportLocal = new LocalStrategy(function(username, password, done) {
     connection.query(
         "SELECT * FROM users WHERE login=" + login + "and password=" + pass,
         function(err, results, fields) {
-            if ((results != "undefined") && (results.length)) {
+            if ((results != undefined) && (results.length)) {
                 connection.query(
                     "SELECT * FROM `users` WHERE `login` =" + login,
                     function(err, results, fields) {
