@@ -106,7 +106,7 @@ io.on('connection', function(socket) {
     socket.on('setUsername', function(data) {
         console.log('User received : ' + `${data}`);
         let id;
-        id = addPlayer(data, rounds, socket, io)
+        id = addPlayer(data, rounds, socket, io);
     });
     socket.on('GO', function(shot) {
         io.sockets.in(shot.idRound).emit('round', createMsgRound(shot, rounds));

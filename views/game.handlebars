@@ -93,13 +93,14 @@
                     $('#target').hide();
                     $("#startButton").show();
                     socket.disconnect();
+                    location.reload(true);
                 });
                 socket.on('abort', function(msg){
                     console.log("ABORT!");
                     $('#target').hide();
                     $("#startButton").show();
                     socket.disconnect();
-                    socket = io();
+                    location.reload(true);
                 });
                 window.addEventListener('beforeunload', function (e) {
                     socket.emit('leaving', {"idRound": idRound, "user": username});
