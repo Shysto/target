@@ -92,7 +92,7 @@ function displayChat(req, res) {
                 console.log(results.length);
                 const messages = { user: [] , layout:false};
                 // for (var i = 0; i < DISPLAY_MAX_MESSAGE; i++) {
-                for (var i = DISPLAY_MAX_MESSAGE - 1; i >= 0; i--) {
+                for (var i = results.length - 1; i >= 0; i--) {
                     messages.user.push({ "name": results[i].loginAuteur, "message": results[i].message}); // we transmit to the view the nickname and the message
                 }
                 console.log(results);
