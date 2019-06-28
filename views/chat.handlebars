@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Audiowide"/>
+    <style>
+        /*Target Logo*/
+       #messages{
+            text-transform: lowercase;
+            font-size: 10px;
+        }
+
+        .head b{
+            color: #ff6600;
+            text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em #ff5b05, 0 0 0.5em #ff4700, 0 0 0.1em #ff7b00, 0 10px 3px #000;
+        }s
+
+    </style>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script>
+        var rep=null;
+        function load(){
+
+            $.ajax({
+                type: "GET",
+                url: "/messages",
+                error: function(){
+                    console.log("erreur");
+                },
+                success: function(oRep){
+                    var messages =  $("#messages");
+                    messages.html(oRep);
+                }
+            });
+
+        }
+    //load();
+        $.ajax({
+            type: "GET",
+            url: "/messages",
+            error: function(){
+                console.log("erreur");
+            },
+            success: function(oRep){
+                var messages =  $("#messages");
+                messages.hide();
+                messages.html(oRep);
+                messages.show("slow");
+            }
+        });
+
+        window.setInterval(load,1500);
+
+    </script>
+</head>
+
+<body>
+
+<div class="head">
+    <b>C<span>h</span>a<span>t</span></b>
+</div><br><br>
+
+<div id="messages">
+</div>
+
+<div id="newMessage">
+{{#if errors}}
+    {{#each errors}}
+        <div class="glow">{{msg}}</div>
+    {{/each}}
+{{/if}}
+
+
+<form  method="post" action="/chat">
+    <input id="text" type="text" class="form-control" name="message" placeholder="Message">
+    <br/>
+    <button id="submit" type="submit" class="btn">Submit</button>
+</form>
+
+</div>
+<br/>
+</body>
+</html>
+
+

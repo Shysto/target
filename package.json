@@ -1,0 +1,39 @@
+{
+  "name": "target",
+  "version": "1.0.0",
+  "description": "An online shooting game",
+  "main": "app.js",
+  "dependencies": {
+    "all": "^0.0.0",
+    "bcryptjs": "^2.4.3",
+    "connect": "^3.7.0",
+    "connect-flash": "^0.1.1",
+    "cookie": "^0.4.0",
+    "cookie-parser": "^1.4.4",
+    "cookies": "^0.7.3",
+    "express": "^4.17.1",
+    "express-handlebars": "^3.1.0",
+    "express-messages": "*",
+    "express-session": "^1.16.2",
+    "express-validator": "^3.2.0",
+    "morgan": "^1.9.1",
+    "mysql": "^2.17.1",
+    "mysql2": "^1.6.5",
+    "passport": "^0.4.0",
+    "passport-cookie": "^1.0.6",
+    "passport-http": "^0.3.0",
+    "passport-local": "^1.0.0",
+    "pug": "^2.0.4",
+    "serve-favicon": "^2.5.0",
+    "socket.io": "^2.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.1"
+  },
+  "scripts": {
+    "start": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Parikshit",
+  "license": "ISC"
+}

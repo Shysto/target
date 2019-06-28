@@ -1,0 +1,135 @@
+/*Glowing text*/
+.glow{
+    color:white;
+    text-transform: uppercase;
+    text-shadow:
+            0 0 10px #ffffff,
+            0 0 10px #ffffff,
+            0 0 1px #f9fdff,
+            0 0 1px #fbfde7;
+}
+
+.glow2{
+    color: #161616;
+    text-transform: uppercase;
+    text-shadow:
+            0 0 10px #121212,
+            0 0 10px #151515,
+            0 0 1px #090a0b,
+            0 0 1px #0a0b07;
+}
+
+
+/*Text blinking*/
+.head {
+    text-align: center;
+    margin: auto;
+    position: relative;
+    text-transform: uppercase;
+    font-size: 50px;
+}
+
+.head b span{
+    animation: blink linear infinite 2s;
+}
+@keyframes blink {
+    78% {
+        color: inherit;
+        text-shadow: inherit;
+    }
+
+    80% {
+
+        text-shadow: none;
+    }
+    81% {
+        color: inherit;
+        text-shadow: inherit;
+    }
+    82% {
+        color: #333;
+        text-shadow: none;
+    }
+    83% {
+        color: inherit;
+        text-shadow: inherit;
+    }
+    92% {
+        color: #333;
+        text-shadow: none;
+    }
+    92.5% {
+        color: inherit;
+        text-shadow: inherit;
+    }
+}
+
+/*INDEX PAGE*/
+
+/*Neon*/
+p {
+    text-align: center;
+    font-size: 4em;
+    margin: 20px 0 20px 0;
+}
+
+a {
+    text-decoration: none;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    transition: all 0.5s;
+}
+
+p a {
+    cursor:pointer;
+}
+
+h2{
+    color: #ffffff;
+    -webkit-animation: none;
+    -moz-animation: none;
+    animation: none;
+    font-family: Audiowide;
+}
+
+p:nth-child(1) a {
+    color: #befffc;
+}
+
+p:nth-child(2) a {
+    color: #228DFF;
+}
+
+
+p:nth-child(3) a {
+    color: #FFDD1B;
+}
+
+
+p:nth-child(4) a {
+    color: #B6FF00;
+}
+
+
+p:nth-child(5) a {
+    color: #FF9900;
+}
+
+
+p:nth-child(6) a {
+    color: #BA01FF;
+}
+
+
+p:nth-child(7) a {
+    color: #00c4ff;
+}
+
+p:nth-child(8) a {
+    color: red;
+}
+
+p a:hover {
+    color: #ffffff;
+}
+

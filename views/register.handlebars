@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+
+<head>
+<style>
+    .head b{
+        color: #40aaff;
+        text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em #327cff, 0 0 0.5em #1d9bff, 0 0 0.1em #33aeff, 0 10px 3px #000;
+    }
+    input{
+        align-content:center;
+    }
+
+</style>
+</head>
+
+<body>
+
+
+<div class="head">
+<b>r<span>eg</span>i<span>s</span>ter</b>
+</div>
+
+
+{{#if errors}}
+    {{#each errors}}
+      <div class="alert alert-danger">{{msg}}</div>
+      {{/each}}
+{{/if}}
+<form method="post" action="/users/register">
+  <div class="form-group">
+    <label class="glow">Username</label>
+      <br/>
+    <input type="text" class="form-control" placeholder="Username" name="username">
+  </div>
+  <div class="form-group">
+    <label class="glow">Password</label>
+      <br/>
+    <input type="password" class="form-control" placeholder="Password" name="password">
+  </div>
+  <div class="form-group">
+    <label class="glow">Confirm Password</label>
+      <br/>
+    <input type="password" class="form-control" placeholder="Password" name="password2">
+  </div>
+  <button type="submit" class="btn" >Send</button>
+</form>
+<br/>
+</body>
+</html>
